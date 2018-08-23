@@ -1,6 +1,11 @@
 // Libraries
     #include <Arduino.h>
+    
 	#include "VhWifi.h"
+
+    #include <WiFi.h>
+    #include <HTTPClient.h>
+
 	#include "Configuration.h"
 	#include "UserSettings.h"
 	#include "ConfigButton.h"
@@ -55,6 +60,14 @@ void setup() {
     //Connect to server
     apiClient.connect();
     
+
+    // Test if it works
+    HTTPClient http;
+    Serial.printf("Wifi Status: %i\n", WiFi.status() == WL_CONNECTED);
+    http.begin("http://vibhub.io/api/"); //Specify the URL
+    int httpCode = http.GET();                                        //Make the request
+    Serial.printf("HTTP code %i\n", httpCode);
+    http.end(); //Free the resources
     
     //TODO: dedicated programming mode
     /*
