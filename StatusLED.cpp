@@ -37,12 +37,17 @@ StatusLED::StatusLED() :
 
 void StatusLED::setLed( int color ){
 
-    //Serial.printf("R %i G %i B %i\n", color&RED, color&GREEN, color&BLUE);
-    p_red.setPWM(255-(color&RED));
-    p_green.setPWM(255-(color&GREEN));
-    p_blue.setPWM(255-(color&BLUE));
+    
+    int red = color&RED ? Configuration::SLED_BRIGHTNESS : 0;
+    int green = color&GREEN ? Configuration::SLED_BRIGHTNESS : 0;
+    int blue = color&BLUE ? Configuration::SLED_BRIGHTNESS : 0;
+    Serial.printf("R %i G %i B %i\n", red, green, blue);
+    p_red.setPWM(255-red);
+    p_green.setPWM(255-green);
+    p_blue.setPWM(255-blue);
 
 }
+
 
 
 // Flash led on and off

@@ -47,7 +47,7 @@ void ApiClient::setup(){
 
 void ApiClient::connect(){
 
-    Serial.println("ApiClient::connect");
+    Serial.printf("ApiClient::connect -> %s:%i\n", userSettings.server, userSettings.port);
     _running = true; // Start loop
     _socket.begin(userSettings.server, userSettings.port);
 

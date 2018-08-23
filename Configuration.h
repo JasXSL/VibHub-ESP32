@@ -19,6 +19,8 @@ namespace Configuration{
 	// Websockets
 	const int WEBSOCKET_RECONNECT_TIME = 10000;
 
+	// StatusLED
+	const uint8_t SLED_BRIGHTNESS = 50;
 
 	// GPIO Assignment
 	const uint8_t PIN_SLED_R = 23;
