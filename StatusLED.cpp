@@ -31,6 +31,7 @@ StatusLED::StatusLED() :
     p_green(Configuration::PIN_SLED_G),
     p_blue(Configuration::PIN_SLED_B)
 {
+    
     setLed(OFF);
 }
 
@@ -41,7 +42,8 @@ void StatusLED::setLed( int color ){
     int red = color&RED ? Configuration::SLED_BRIGHTNESS : 0;
     int green = color&GREEN ? Configuration::SLED_BRIGHTNESS : 0;
     int blue = color&BLUE ? Configuration::SLED_BRIGHTNESS : 0;
-    Serial.printf("R %i G %i B %i\n", red, green, blue);
+    //Serial.printf("R %i G %i B %i\n", red, green, blue);
+    //Serial.printf("Rc %i Gc %i\n", p_red._channel, p_green._channel);
     p_red.setPWM(255-red);
     p_green.setPWM(255-green);
     p_blue.setPWM(255-blue);
@@ -110,6 +112,8 @@ void StatusLED::testTick( int color ){
     
     statusLED.setLed(OFF);
     
+    Serial.printf("Stage: %i\n", statusLED.testColor);
+
     switch(statusLED.testColor) {
 
         case 0 : statusLED.setLed(RED); break;
@@ -124,7 +128,7 @@ void StatusLED::testTick( int color ){
 
     }
     
-    statusLED.testColor++;
+    ++statusLED.testColor;
     if( statusLED.testColor >= 9 )
         ledTicker.detach();
     

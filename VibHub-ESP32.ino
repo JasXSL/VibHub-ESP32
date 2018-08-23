@@ -98,7 +98,7 @@ void loop() {
     configButton.loop();
 
     //ArduinoOTA.handle();
-	delay(1000);
+	//delay(1000);
     
 }
 
