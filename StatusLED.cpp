@@ -26,18 +26,26 @@ const char StatusLED::STATE_RUNNING = 5;
 
 StatusLED::StatusLED() :
     programState(-1),
-    ledTickerHigh(false),
-    p_red(Configuration::PIN_SLED_R),
-    p_green(Configuration::PIN_SLED_G),
-    p_blue(Configuration::PIN_SLED_B)
+    ledTickerHigh(false)
+    //p_red(),
+    //p_green(),
+    //p_blue()
 {
-    
-    setLed(OFF);
+
 }
 
 
-void StatusLED::setLed( int color ){
+void StatusLED::initialize(){
 
+    p_red.initialize(Configuration::PIN_SLED_R);
+    p_green.initialize(Configuration::PIN_SLED_G);
+    p_blue.initialize(Configuration::PIN_SLED_B);
+    Serial.println("Initialized StatusLED");
+    setLed(OFF);
+
+}
+
+void StatusLED::setLed( int color ){
     
     int red = color&RED ? Configuration::SLED_BRIGHTNESS : 0;
     int green = color&GREEN ? Configuration::SLED_BRIGHTNESS : 0;
@@ -47,7 +55,6 @@ void StatusLED::setLed( int color ){
     p_red.setPWM(255-red);
     p_green.setPWM(255-green);
     p_blue.setPWM(255-blue);
-
 }
 
 

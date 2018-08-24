@@ -12,12 +12,14 @@ class Pwm{
 
     public:
         Pwm(uint8_t pin);
+        Pwm();  // Don't initialize immediately
+        void initialize(uint8_t pin);
         void setPWM(uint8_t duty);
         static void disableAll();
         int _channel;
 
     private:
-		  static std::vector<Pwm> _devices;
+		  static std::vector<Pwm*> _devices;
 
 };
 

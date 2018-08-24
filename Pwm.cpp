@@ -9,64 +9,39 @@
 #include "Pwm.h"
 #include "Configuration.h"
 
-std::vector<Pwm> Pwm::_devices;
+std::vector<Pwm*> Pwm::_devices;
+int devices_bound = 0;
 
+Pwm::Pwm(){}
 Pwm::Pwm( uint8_t pin ){
+    initialize(pin);  
+}
+
+void Pwm::initialize( uint8_t pin ){
 
     _channel = Pwm::_devices.size();
     pinMode(pin, OUTPUT);
     ledcSetup(_channel, Configuration::PWM_FREQ, Configuration::PWM_RESOLUTION);
     ledcAttachPin(pin, _channel);
-    
-    Serial.printf("Bound pin %i to channel %i\n", pin, _channel);
+    ++devices_bound;
+    Serial.printf("BOUND PIN %i to channel %i (Total devices: %i, %i)\n", pin, _channel, Pwm::_devices.size(), devices_bound);
 
-    Pwm::_devices.push_back(*this);
+    Pwm::_devices.push_back(this);
     setPWM(0);
-    
-    
+
 }
 
 void Pwm::setPWM( uint8_t duty ){
 
-    Serial.printf("PWM of channel %i = %i\n", _channel, duty);
+    //Serial.printf("PWM of channel %i = %i\n", _channel, duty);
     ledcWrite(_channel, duty);
 
 }
 
-/*
-Todo: Move to motor
-void Pwm::setPWM( uint8_t duty, bool fast_decay, bool forward ){
-
-    // double motor index to give us the pwm pin offset
-    // Double are for if you want to reverse to make it "choppy"
-    motor = motor*2;
-    
-    if (forward) {
-        if (fast_decay) {
-            pwmdriver.set_duty(motor, duty);
-            pwmdriver.set_duty(motor+1, 0);
-        }
-        else { // slow decay
-            pwmdriver.set_duty(motor, 255);
-            pwmdriver.set_duty(motor+1, 255-duty);
-        }
-    }
-    else { // reverse
-        if (fast_decay) {
-            pwmdriver.set_duty(motor, 0);
-            pwmdriver.set_duty(motor+1, duty);
-        }
-        else { // slow decay
-            //Serial.printf("Setting duty: %i = %i, %i = %i \n", motor, 255-duty, motor+1, 255);
-            pwmdriver.set_duty(motor, 255-duty);
-            pwmdriver.set_duty(motor+1, 255); 
-        }
-    }
-}
-*/
 void Pwm::disableAll(){
 
+
     for(char i =0; i<Pwm::_devices.size(); ++i )
-        Pwm::_devices[i].setPWM(0);
+        Pwm::_devices[i]->setPWM(0);
 
 }

@@ -7,7 +7,7 @@
 #include <Arduino.h>
 #include "SocketIoClient.h"
 #include <functional>
-//#include "VhMotor.h"
+#include "Motor.h"
 
 using namespace std::placeholders;
 
@@ -36,8 +36,7 @@ class ApiClient {
         bool _connected;
         bool _running;
         
-        // Todo: Motors
-        //std::vector<VhMotor> motors;		// Vector containing motors to be PWMed
+        std::vector<Motor> motors;		// Vector containing motors to be PWMed
 };
 
 extern ApiClient apiClient;

@@ -12,7 +12,7 @@ class StatusLED{
 
     public:
         StatusLED(void);
-
+        void initialize();  // Reserves PWM channels
         static const char STATE_BOOT;
         static const char STATE_INIT;
         static const char STATE_PORTAL;

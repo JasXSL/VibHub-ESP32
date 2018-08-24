@@ -67,6 +67,7 @@ void SocketIoClient::beginSSL(const char* host, const int port, const char* url,
 }
 
 void SocketIoClient::begin(const char* host, const int port, const char* url) {
+	Serial.printf("Starting socket, %s:%i, %s \n", host, port, url);
 	_webSocket.begin(host, port, url);
     initialize();
 }

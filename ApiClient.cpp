@@ -24,15 +24,12 @@ ApiClient::ApiClient(void) :
 
 void ApiClient::setup(){
 
-    // Initialize motors
-    // VhMotor::begin();
-
+	motors.push_back(Motor(Configuration::PIN_MOTOR_A_FWD, Configuration::PIN_MOTOR_A_BACK));
     /*
-    Todo: Motors
-	motors.push_back(VhMotor(CHANNEL_MOTOR_0));
-	motors.push_back(VhMotor(CHANNEL_MOTOR_1));
-	motors.push_back(VhMotor(CHANNEL_MOTOR_2));
-	motors.push_back(VhMotor(CHANNEL_MOTOR_3));
+    Todo: Map the rest of the motors
+	motors.push_back(Motor(CHANNEL_MOTOR_1));
+	motors.push_back(Motor(CHANNEL_MOTOR_2));
+	motors.push_back(Motor(CHANNEL_MOTOR_3));
     */
 
     // Attach event handlers
@@ -68,7 +65,7 @@ void ApiClient::event_connect( const char * payload, size_t length ){
     _connected = true;
     _socket.emit("id", ("\"" + (String)userSettings.deviceid + "\"").c_str());
     statusLED.setState(StatusLED::STATE_RUNNING);
-    //pwm.enable(); TODO
+    //pwm.enable(); TODO: Kadah, figure out the enable thing
 
 }
 
@@ -79,7 +76,7 @@ void ApiClient::event_disconnect( const char * payload, size_t length ){
         Serial.println("ApiClient::event_disconnect");
         statusLED.setState(StatusLED::STATE_SOCKET_ERR);
         _connected = false;
-        //pwm.disable(); TODO
+        //pwm.disable(); TODO: Kadah, figure out the enable thing
 
     }
 
@@ -140,12 +137,9 @@ void ApiClient::event_vib( const char * payload, size_t length ){
 
             int i;
             for( i=0; i<4; ++i ){
-                
-                //Todo: Motors
-                /*
+
                 if( mo[i] )
                     motors[i].loadProgram(j["stages"], repeats);
-                */
 
             }
 
@@ -168,9 +162,7 @@ void ApiClient::event_p( const char * payload, size_t length ){
     vibArray[2] = (int)((data & 0x0000FF00) >> 8 );
     vibArray[3] = (int)((data & 0X000000FF));
     Serial.printf("ApiClient::event_p - v0: %u, v1: %u, v2: %u, v3: %u\n", vibArray[0], vibArray[1], vibArray[2], vibArray[3]);
-    
-    /*
-    Todo: Motors
+
     int i;
     for( i = 0; i < 4; ++i ){
 
@@ -178,7 +170,6 @@ void ApiClient::event_p( const char * payload, size_t length ){
         motors[i].setPWM(vibArray[i]);
 
     }
-    */
 
 }
 
@@ -188,12 +179,9 @@ void ApiClient::loop() {
     if (_running){
 
         _socket.loop();
-        
-        /*
-        Todo: Motors
+
         for( int i=0; i<motors.size(); ++i )
             motors[i].update();
-        */
 
     }
 

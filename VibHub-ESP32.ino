@@ -14,10 +14,8 @@
     #include "Pwm.h"
 
 	/*
-	#include "VhMotor.h"
     #include <ArduinoOTA.h>
 	*/
-
 
 // Program begins
 void setup() {
@@ -25,13 +23,14 @@ void setup() {
 	// Serial setup
     Serial.begin(115200);
     //Serial.setDebugOutput(true);
-    delay(100);
+    delay(1000);
     Serial.println("\nStarting...");
     
 	// Configure RNG
 	randomSeed(analogRead(A0));
 
     // Set LED state
+    statusLED.initialize();
     statusLED.setState(StatusLED::STATE_BOOT);
     
     configButton.setup();
@@ -54,8 +53,6 @@ void setup() {
 	
     // Set socket loading state
     statusLED.setState(StatusLED::STATE_SOCKET_ERR);
-    
-    // motorCtrl.begin();
     
     //Connect to server
     apiClient.connect();
