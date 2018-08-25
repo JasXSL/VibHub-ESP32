@@ -14,13 +14,14 @@ class RandObject{
 		RandObject(){};
         void load(JsonVariant data){
 			reset();
-			if(data.is<bool>()){
+			if(data.is<bool>())
 				useDefault = true;
-			}
-			else if(data.is<int>()){
+			
+			else if(data.is<int>())
 				min = max = data.as<int>();
-			}
+			
 			else if(data.is<JsonObject>()){
+
 				JsonObject &d = data.as<JsonObject&>();
 				if(d.containsKey("min"))
 					min = d["min"];
@@ -30,6 +31,7 @@ class RandObject{
 					offset = d["offset"];
 				if(d.containsKey("multi"))
 					multi = d["multi"];
+					
 			}
 			else
 				Serial.println("RandObject is INVALID");
