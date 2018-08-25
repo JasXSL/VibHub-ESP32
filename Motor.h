@@ -13,7 +13,7 @@
 class Motor{
 
 	public:
-		Motor( uint8_t pin_fwd, uint8_t pin_back );										// Creates the motor
+		Motor( uint8_t pin_in1, uint8_t pin_in2 );								// Creates the motor
 		void loadProgram( JsonArray &stages, int repeats );						// Loads a program onto this
 		void update();															// Program loop
         void setPWM( uint8_t duty, bool fast_decay = false, bool forward = false );	// Sets the PWM
@@ -27,8 +27,8 @@ class Motor{
 		
     protected:
         float _duty;															// Duty cycle (0-255)
-		Pwm pwm_fwd;															// Pwm forward object
-		Pwm pwm_back;															// Pwm back object
+		Pwm pwm_in1;															// Pwm forward object
+		Pwm pwm_in2;															// Pwm back object
 
 };
 

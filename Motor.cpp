@@ -1,3 +1,8 @@
+/*
+Driver for one channel of a DRV8833
+http://www.ti.com/lit/ds/symlink/drv8833.pdf
+*/
+
 #include "Arduino.h"
 #include "Motor.h"
 #include "TweenDuino.h" // https://github.com/stickywes/TweenDuino
@@ -5,17 +10,17 @@
 #include "Pwm.h"
 #include "RandObject.h"
 
-//#define DEBUG
+// #define DEBUG
 
-Motor::Motor( uint8_t pin_fwd, uint8_t pin_back ) :
+Motor::Motor( uint8_t pin_in1, uint8_t pin_in2 ) :
     _duty(0),
-	pwm_fwd(pin_fwd),
-	pwm_back(pin_back),
+	pwm_in1(pin_in1),
+	pwm_in2(pin_in2),
 	_repeats(0)
 {
     // Force initial state
-    //pwm_fwd = Pwm(pin_fwd);
-    //pwm_back = Pwm(pin_back);
+    //pwm_in1 = Pwm(pin_in1);
+    //pwm_in2 = Pwm(pin_in2);
 	setPWM(0);
 }
 
@@ -132,26 +137,57 @@ void Motor::update(){
 // fast_decay and forward are false by default
 void Motor::setPWM( uint8_t duty, bool fast_decay, bool forward ){
 
-	//Serial.printf("Setting duty: %i on channel %i and 0 on channel %i \n", duty, pwm_fwd._channel, pwm_back._channel);
+    #ifdef DEBUG
+        Serial.printf("Setting duty: %3i on channels %3i and %2i, fast_decay: %5s, forward: %s\n", duty, pwm_in1._channel, pwm_in2._channel, fast_decay ? "true" : "false", forward ? "true" : "false");
+    #endif
+    
 	_duty = duty;
 
-	pwm_fwd.setPWM(duty);
-	pwm_back.setPWM(0);
+    /*
+    http://www.ti.com/lit/ds/symlink/drv8833.pdf
+    7.3.2 Bridge Control and Decay Modes
+    
+    The AIN1 and AIN2 input pins control the state of the AOUT1 and AOUT2 outputs; similarly, the BIN1 and BIN2
+    input pins control the state of the BOUT1 and BOUT2 outputs. Table 1 shows the logic.
+    
+        Table 1. H-Bridge Logic
+        xIN1    xIN2    xOUT1   xOUT2   FUNCTION
+        0       0       Z       Z       Coast/fast decay
+        0       1       L       H       Reverse
+        1       0       H       L       Forward
+        1       1       L       L       Brake/slow decay
+    
+    The inputs can also be used for PWM control of the motor speed. When controlling a winding with PWM, when
+    the drive current is interrupted, the inductive nature of the motor requires that the current must continue to flow.
+    This is called recirculation current. To handle this recirculation current, the H-bridge can operate in two different
+    states: fast decay or slow decay. In fast decay mode, the H-bridge is disabled and recirculation current flows
+    through the body diodes; in slow decay, the motor winding is shorted.
+    To PWM using fast decay, the PWM signal is applied to one xIN pin while the other is held low; to use slow
+    decay, one xIN pin is held high.
+    
+    To PWM using fast decay, the PWM signal is applied to one xIN pin while the other is held low; to use slow
+    decay, one xIN pin is held high.
 
-	/*
-	Todo: Kadah I'm not 100% sure how this works, could you look into it?
+        Table 2: PWM Control of Motor Speed
+        xIN1    xIN2    FUNCTION
+        PWM     0       Forward PWM, fast decay
+        1       PWM     Forward PWM, slow decay
+        0       PWM     Reverse PWM, fast decay
+        PWM     1       Reverse PWM, slow decay
+    */
+    
     if( forward ){
 
         if( fast_decay ) {
 
-            pwmdriver.set_duty(motor, duty);
-            pwmdriver.set_duty(motor+1, 0);
+            pwm_in1.setPWM(duty);
+            pwm_in2.setPWM(0);
 
         }
         else{ // slow decay
 
-            pwmdriver.set_duty(motor, 255);
-            pwmdriver.set_duty(motor+1, 255-duty);
+            pwm_in1.setPWM(255);
+            pwm_in2.setPWM(255-duty);
 
         }
 
@@ -160,20 +196,19 @@ void Motor::setPWM( uint8_t duty, bool fast_decay, bool forward ){
 
         if( fast_decay ){
 
-            pwmdriver.set_duty(motor, 0);
-            pwmdriver.set_duty(motor+1, duty);
+            pwm_in1.setPWM(0);
+            pwm_in2.setPWM(duty);
         }
         else{ 
 
 			// slow decay
             //Serial.printf("Setting duty: %i = %i, %i = %i \n", motor, 255-duty, motor+1, 255);
-            pwmdriver.set_duty(motor, 255-duty);
-            pwmdriver.set_duty(motor+1, 255); 
+            pwm_in1.setPWM(255-duty);
+            pwm_in2.setPWM(255); 
 
         }
 
     }
-	*/
 
 }
 
