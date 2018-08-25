@@ -5,12 +5,12 @@
 
 Ticker ledTicker;               // Ticker for LED
 
-const char StatusLED::STATE_BOOT = 0;
-const char StatusLED::STATE_INIT = 1;
-const char StatusLED::STATE_PORTAL = 2;
-const char StatusLED::STATE_WIFI_ERR = 3;
-const char StatusLED::STATE_SOCKET_ERR = 4;
-const char StatusLED::STATE_RUNNING = 5;
+const uint8_t StatusLED::STATE_BOOT = 0;
+const uint8_t StatusLED::STATE_INIT = 1;
+const uint8_t StatusLED::STATE_PORTAL = 2;
+const uint8_t StatusLED::STATE_WIFI_ERR = 3;
+const uint8_t StatusLED::STATE_SOCKET_ERR = 4;
+const uint8_t StatusLED::STATE_RUNNING = 5;
 
 #define RED     0x1
 #define GREEN   0x2

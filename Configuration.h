@@ -46,6 +46,15 @@ namespace Configuration{
 	const int BUTTON_HOLD_TIME = 3000;						// Time before it enters config mode
 	const int BUTTON_DEBOUNCE = 100;						// Debounce time
 
+
+	// Global randomizer function
+	// Returns a random value which can be min through and including max
+	// min0 max3 would generate 0, 1, 2, or 3
+	inline int espRandBetween(int minimum, int maximum){
+		float r = esp_random()/UINT32_MAX;
+		return (minimum+floor((maximum+1-minimum)*r));
+	}
+
 };
 
 

@@ -6,6 +6,7 @@
 #ifndef RandObject_h
 #define RandObject_h
 #include <ArduinoJson.h>
+#include "Configuration.h"
 // Motor class extending PWM class
 class RandObject{
 
@@ -40,10 +41,8 @@ class RandObject{
 		int getValue(int valueOnFalse = 0){
 			if(useDefault)
 				return valueOnFalse;
-			
-			int out = random(min, max+1)*multi+offset;
 			//Serial.printf("Returning a random value between min %i, max %i, multi %i, offset %i: %i\n", min, max, multi, offset, out);
-			return out;
+			return Configuration::espRandBetween(min, max)*multi+offset;
 		}
 
 	private:

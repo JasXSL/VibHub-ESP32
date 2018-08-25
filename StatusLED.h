@@ -13,12 +13,12 @@ class StatusLED{
     public:
         StatusLED(void);
         void initialize();  // Reserves PWM channels
-        static const char STATE_BOOT;
-        static const char STATE_INIT;
-        static const char STATE_PORTAL;
-        static const char STATE_WIFI_ERR;
-        static const char STATE_SOCKET_ERR;
-        static const char STATE_RUNNING;
+        static const uint8_t STATE_BOOT;
+        static const uint8_t STATE_INIT;
+        static const uint8_t STATE_PORTAL;
+        static const uint8_t STATE_WIFI_ERR;
+        static const uint8_t STATE_SOCKET_ERR;
+        static const uint8_t STATE_RUNNING;
         
         bool ledTickerHigh;
         void setState( int state = STATE_BOOT );

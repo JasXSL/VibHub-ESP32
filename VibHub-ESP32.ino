@@ -25,9 +25,6 @@ void setup() {
     //Serial.setDebugOutput(true);
     delay(1000);
     Serial.println("\nStarting...");
-    
-	// Configure RNG
-	randomSeed(analogRead(A0));
 
     // Set LED state
     statusLED.initialize();

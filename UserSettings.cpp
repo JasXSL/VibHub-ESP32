@@ -112,7 +112,7 @@ void UserSettings::gen_random( char *s, const int len ){
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     for( int i = 0; i < len; ++i )
-        s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+        s[i] = alphanum[esp_random() % (sizeof(alphanum) - 1)];
     
     s[len] = 0;
 

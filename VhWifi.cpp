@@ -61,24 +61,19 @@ void VhWifi::connect( bool force, bool reset ){
 
         if( !wifiManager.startConfigPortal(ssid.c_str()) ){
 
-            statusLED.setState( StatusLED::STATE_WIFI_ERR );
             Serial.println("VhWifi: Failed to connect and hit timeout");
-            //reset and try again, or maybe put it to deep sleep
-            ESP.restart();
-            delay(1000);
+            handleFatalError();
 
         }
 
     }
 
+    // Try to connect to AP, if that doesn't work, enter config mode
     else if( !wifiManager.autoConnect(ssid.c_str()) ){
 
-        statusLED.setState( StatusLED::STATE_WIFI_ERR );
+        // Config mode failed to enter
         Serial.println("VhWifi: Failed to connect and hit timeout");
-        //reset and try again, or maybe put it to deep sleep
-        // Todo: Decide what to do here
-        ESP.restart();
-        delay(1000);
+        handleFatalError();
 
     }
     
@@ -107,6 +102,15 @@ void VhWifi::connect( bool force, bool reset ){
     Serial.println(WiFi.localIP());
     
     Serial.println("VhWifi: connected");
+}
+
+// Unrecoverable connection error
+void VhWifi::handleFatalError(){
+
+    statusLED.setState( StatusLED::STATE_WIFI_ERR );
+    delay(5000);
+    esp_deep_sleep_start();
+
 }
 
 void VhWifi::clearSettings(){
