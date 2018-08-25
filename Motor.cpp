@@ -5,12 +5,13 @@
 #include "Pwm.h"
 #include "RandObject.h"
 
-
+//#define DEBUG
 
 Motor::Motor( uint8_t pin_fwd, uint8_t pin_back ) :
     _duty(0),
 	pwm_fwd(pin_fwd),
-	pwm_back(pin_back)
+	pwm_back(pin_back),
+	_repeats(0)
 {
     // Force initial state
     //pwm_fwd = Pwm(pin_fwd);
@@ -82,15 +83,15 @@ void Motor::loadProgram( JsonArray &stages, int repeats = 0 ){
 
 	#ifdef DEBUG
 		Serial.println();
-		Serial.printf("Loading new program on channel %i with %i stages.\n", _channel, stages.size());
+		Serial.printf("Loading new program with #%i stages.\n", stages.size());
 	#endif
 	_repeats = repeats;
 
 	// Todo: This crashes the ESP. What de fook bork bork
 	std::vector<VhProgramStage>().swap(_active_program);
-	for( auto stage : stages ){
+	for( auto stage : stages )
 		_active_program.push_back(VhProgramStage(stage.as<JsonObject>()));
-	}
+	
 	playProgram();
 
 }
@@ -131,7 +132,7 @@ void Motor::update(){
 // fast_decay and forward are false by default
 void Motor::setPWM( uint8_t duty, bool fast_decay, bool forward ){
 
-	Serial.printf("Setting duty: %i \n", duty);
+	//Serial.printf("Setting duty: %i on channel %i and 0 on channel %i \n", duty, pwm_fwd._channel, pwm_back._channel);
 	_duty = duty;
 
 	pwm_fwd.setPWM(duty);

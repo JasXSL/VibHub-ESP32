@@ -10,9 +10,6 @@
 #include "UserSettings.h"
 #include <ArduinoJson.h>
 
-//#include "Pwm.h" Todo
-
-
 ApiClient::ApiClient(void) :
     _socket(),
     _connected(false),
@@ -25,12 +22,10 @@ ApiClient::ApiClient(void) :
 void ApiClient::setup(){
 
 	motors.push_back(Motor(Configuration::PIN_MOTOR_A_FWD, Configuration::PIN_MOTOR_A_BACK));
-    /*
-    Todo: Map the rest of the motors
-	motors.push_back(Motor(CHANNEL_MOTOR_1));
-	motors.push_back(Motor(CHANNEL_MOTOR_2));
-	motors.push_back(Motor(CHANNEL_MOTOR_3));
-    */
+	motors.push_back(Motor(Configuration::PIN_MOTOR_B_FWD, Configuration::PIN_MOTOR_B_BACK));
+	motors.push_back(Motor(Configuration::PIN_MOTOR_C_FWD, Configuration::PIN_MOTOR_C_BACK));
+	motors.push_back(Motor(Configuration::PIN_MOTOR_D_FWD, Configuration::PIN_MOTOR_D_BACK));
+	
 
     // Attach event handlers
     // For simplicity, events are always attached regardless

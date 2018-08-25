@@ -29,6 +29,12 @@ namespace Configuration{
 	const uint8_t PIN_CONFIG_BUTTON = 18;					// Configuration pin. Use a pull-up resistor
 	const uint8_t PIN_MOTOR_A_FWD = 15;
 	const uint8_t PIN_MOTOR_A_BACK = 2;
+	const uint8_t PIN_MOTOR_B_FWD = 0;
+	const uint8_t PIN_MOTOR_B_BACK = 4;
+	const uint8_t PIN_MOTOR_C_FWD = 16;
+	const uint8_t PIN_MOTOR_C_BACK = 17;
+	const uint8_t PIN_MOTOR_D_FWD = 5;
+	const uint8_t PIN_MOTOR_D_BACK = 21;
 
 	// PWM
 	const int PWM_FREQ = 16000;								// PWM Frequency
