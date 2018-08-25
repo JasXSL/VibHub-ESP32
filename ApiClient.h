@@ -33,6 +33,9 @@ class ApiClient {
         void event_vib(const char * payload, size_t length);
         void event_p(const char * payload, size_t length);
         
+        void output_enable();
+        void output_disable();
+        
         bool _connected;
         bool _running;
         

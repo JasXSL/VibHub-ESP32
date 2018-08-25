@@ -27,6 +27,7 @@ namespace Configuration{
 	const uint8_t PIN_SLED_G = 19;
 	const uint8_t PIN_SLED_B = 22;
 	const uint8_t PIN_CONFIG_BUTTON = 18;					// Configuration pin. Use a pull-up resistor
+	const uint8_t PIN_NSLEEP = 13;
 	const uint8_t PIN_MOTOR_A_FWD = 15;
 	const uint8_t PIN_MOTOR_A_BACK = 2;
 	const uint8_t PIN_MOTOR_B_FWD = 0;

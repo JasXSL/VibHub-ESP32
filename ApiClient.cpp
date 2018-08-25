@@ -25,7 +25,6 @@ void ApiClient::setup(){
 	motors.push_back(Motor(Configuration::PIN_MOTOR_B_FWD, Configuration::PIN_MOTOR_B_BACK));
 	motors.push_back(Motor(Configuration::PIN_MOTOR_C_FWD, Configuration::PIN_MOTOR_C_BACK));
 	motors.push_back(Motor(Configuration::PIN_MOTOR_D_FWD, Configuration::PIN_MOTOR_D_BACK));
-	
 
     // Attach event handlers
     // For simplicity, events are always attached regardless
@@ -33,6 +32,8 @@ void ApiClient::setup(){
     _socket.on("disconnect", std::bind(&ApiClient::event_disconnect, this, _1, _2));
     _socket.on("vib", std::bind(&ApiClient::event_vib, this, _1, _2));
     _socket.on("p", std::bind(&ApiClient::event_p, this, _1, _2));
+
+    pinMode(Configuration::PIN_NSLEEP, OUTPUT);
 
 }
 
@@ -60,7 +61,7 @@ void ApiClient::event_connect( const char * payload, size_t length ){
     _connected = true;
     _socket.emit("id", ("\"" + (String)userSettings.deviceid + "\"").c_str());
     statusLED.setState(StatusLED::STATE_RUNNING);
-    //pwm.enable(); TODO: Kadah, figure out the enable thing
+    output_enable();
 
 }
 
@@ -71,7 +72,7 @@ void ApiClient::event_disconnect( const char * payload, size_t length ){
         Serial.println("ApiClient::event_disconnect");
         statusLED.setState(StatusLED::STATE_SOCKET_ERR);
         _connected = false;
-        //pwm.disable(); TODO: Kadah, figure out the enable thing
+        output_disable();
 
     }
 
@@ -180,6 +181,14 @@ void ApiClient::loop() {
 
     }
 
+}
+
+// Enables/Disables motor drivers (sets DRV8833's nSLEEP pin high/low)
+void ApiClient::output_enable(){
+    digitalWrite(Configuration::PIN_NSLEEP, HIGH);
+}
+void ApiClient::output_disable(){  
+    digitalWrite(Configuration::PIN_NSLEEP, LOW);
 }
 
 
