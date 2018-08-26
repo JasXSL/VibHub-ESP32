@@ -8,6 +8,7 @@
 #include "Configuration.h"
 #include "StatusLED.h"
 #include "UserSettings.h"
+#include "FirmwareUpdate.h"
 #include <ArduinoJson.h>
 
 ApiClient::ApiClient(void) :
@@ -21,10 +22,10 @@ ApiClient::ApiClient(void) :
 
 void ApiClient::setup(){
 
-	motors.push_back(Motor(Configuration::PIN_MOTOR_A_FWD, Configuration::PIN_MOTOR_A_BACK));
-	motors.push_back(Motor(Configuration::PIN_MOTOR_B_FWD, Configuration::PIN_MOTOR_B_BACK));
-	motors.push_back(Motor(Configuration::PIN_MOTOR_C_FWD, Configuration::PIN_MOTOR_C_BACK));
-	motors.push_back(Motor(Configuration::PIN_MOTOR_D_FWD, Configuration::PIN_MOTOR_D_BACK));
+	motors.push_back(Motor(Configuration::PIN_MOTOR_A_IN1, Configuration::PIN_MOTOR_A_IN2));
+	motors.push_back(Motor(Configuration::PIN_MOTOR_B_IN1, Configuration::PIN_MOTOR_B_IN2));
+	motors.push_back(Motor(Configuration::PIN_MOTOR_C_IN1, Configuration::PIN_MOTOR_C_IN2));
+	motors.push_back(Motor(Configuration::PIN_MOTOR_D_IN1, Configuration::PIN_MOTOR_D_IN2));
 
     // Attach event handlers
     // For simplicity, events are always attached regardless
@@ -32,6 +33,7 @@ void ApiClient::setup(){
     _socket.on("disconnect", std::bind(&ApiClient::event_disconnect, this, _1, _2));
     _socket.on("vib", std::bind(&ApiClient::event_vib, this, _1, _2));
     _socket.on("p", std::bind(&ApiClient::event_p, this, _1, _2));
+    _socket.on("ota", std::bind(&ApiClient::event_ota, this, _1, _2));
 
     pinMode(Configuration::PIN_NSLEEP, OUTPUT);
 
@@ -63,6 +65,8 @@ void ApiClient::event_connect( const char * payload, size_t length ){
     statusLED.setState(StatusLED::STATE_RUNNING);
     output_enable();
 
+    // KC: Force test OTA
+    // fwUpdate.start("0.0.1/Board_Test_32.bin", "ba23a5ca48356df4aac57df6a2634dbe");
 }
 
 void ApiClient::event_disconnect( const char * payload, size_t length ){
@@ -167,6 +171,21 @@ void ApiClient::event_p( const char * payload, size_t length ){
 
     }
 
+}
+
+
+void ApiClient::event_ota( const char * payload, size_t length ){
+    
+    Serial.printf("ApiClient::event_ota - payload: %s\n", payload);
+    
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& root = jsonBuffer.parse(payload);
+    
+    const char* file = root["file"];
+    const char* md5 = root["md5"];
+    
+    fwUpdate.start(file, md5);
+    
 }
 
 
