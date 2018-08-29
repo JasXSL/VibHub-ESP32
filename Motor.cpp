@@ -5,83 +5,19 @@ http://www.ti.com/lit/ds/symlink/drv8833.pdf
 
 #include "Arduino.h"
 #include "Motor.h"
-#include "TweenDuino.h" // https://github.com/stickywes/TweenDuino
 #include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson
-#include "Pwm.h"
-#include "RandObject.h"
 
-// #define DEBUG
+#define DEBUG
 
 Motor::Motor( uint8_t pin_in1, uint8_t pin_in2 ) :
     _duty(0),
 	pwm_in1(pin_in1),
-	pwm_in2(pin_in2),
-	_repeats(0)
+	pwm_in2(pin_in2)
 {
     // Force initial state
     //pwm_in1 = Pwm(pin_in1);
     //pwm_in2 = Pwm(pin_in2);
 	setPWM(0);
-}
-
-// Plays cached program
-void Motor::playProgram(){
-
-	timeline.wipe();
-	
-	int size = _active_program.size();
-	int lastpwm = _duty;
-	#ifdef DEBUG
-		Serial.printf("PlayProgram, received %i stages\n", size);
-		long free = ESP.getFreeHeap();
-		Serial.printf("Free memory: %i\n", free);
-	#endif
-
-	if(!size){
-		stopProgram();
-		return;
-	}
-
-	int totalDuration = 0;
-	for(std::vector<VhProgramStage>::iterator iter = _active_program.begin(); iter != _active_program.end(); iter++) {
-
-		int r;
-		int intens = iter->intensity.getValue(lastpwm);
-		int lastIntensity = lastpwm;
-		int dur = iter->duration.getValue();
-		int rep = iter->repeats.getValue();
-		if( dur < 1 )
-			dur = 1;
-		if( rep < 0 )
-			rep = 0;
-		++rep;
-		totalDuration += dur;
-		for( r = 0; r < rep; ++r ){
-
-			// Snapback repeats
-			if( !iter->yoyo && r ) 
-				timeline.addTo(_duty, (float)lastpwm, 1);
-
-			int v = intens;
-			if( iter->yoyo && r%2 == 1 )
-				v = lastpwm;
-			
-			//Serial.printf("Added playback from %i to %i over %i ms | yFlip %i\n", lastIntensity, v, dur, yoyo && r%2 == 1);	
-			lastIntensity = v;
-			timeline.addTo(_duty, (float)v, dur, iter->ease, iter->easeType);
-
-		}
-
-		lastpwm = lastIntensity;
-
-	}
-
-	#ifdef DEBUG
-		Serial.printf("Program built, total duration: %i!\n", totalDuration);
-	#endif
-	program_running = true;
-	timeline.begin(millis());
-
 }
 
 void Motor::loadProgram( JsonArray &stages, int repeats = 0 ){
@@ -90,46 +26,31 @@ void Motor::loadProgram( JsonArray &stages, int repeats = 0 ){
 		Serial.println();
 		Serial.printf("Loading new program with #%i stages.\n", stages.size());
 	#endif
-	_repeats = repeats;
-
-	// Todo: This crashes the ESP. What de fook bork bork
-	std::vector<VhProgramStage>().swap(_active_program);
-	for( auto stage : stages )
-		_active_program.push_back(VhProgramStage(stage.as<JsonObject>()));
 	
-	playProgram();
+	program.reset(repeats);
+	for( auto stage : stages )
+		program.addStageFromJson(stage.as<JsonObject>());
+	
+	program.start();
 
 }
 
 void Motor::stopProgram(){
-	program_running = false;
+	program.completed = true;	// Makes sure we don't run loop on the program
+	program.reset(0);			// Frees up some memory
 }
 
 void Motor::update(){
 
-	if(!program_running)
+	if( !program.loop() )
 		return;
 
-	uint32_t time = millis();
-	timeline.update(time);
+	_duty = floor(program.value);
+	if( _duty < 0 )
+		_duty = 0;
+	else if( _duty > 255 )
+		_duty = 255;
 
-	if( timeline.isComplete() ){
-		// Handle repeats
-		if(_repeats == -1 || _repeats > 0){
-			#ifdef DEBUG
-				Serial.println("Program completed, looping");
-			#endif
-			playProgram();	// needed for randObjects. Memory seems fine anyways.
-			if( _repeats > 0 )
-				--_repeats;
-		}
-		else{
-			stopProgram();
-			//Serial.printf("Program is complete, and duty is %i \n", _duty);
-		}
-	}
-
-	//Serial.printf("Setting program duty: %f\n", _duty);
 	setPWM(_duty);
 
 }

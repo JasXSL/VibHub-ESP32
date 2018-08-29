@@ -3,6 +3,7 @@
 */
 #ifndef _VH_CONFIGURATION
 #define _VH_CONFIGURATION
+#include <FS.h>
 #include <Arduino.h>
 // Bug with arduino unless I undefine these
 #undef min
@@ -52,11 +53,13 @@ namespace Configuration{
 	// Returns a random value which can be min through and including max
 	// min0 max3 would generate 0, 1, 2, or 3
 	inline int espRandBetween(int minimum, int maximum){
-		float r = esp_random()/UINT32_MAX;
+		float r = (float)esp_random()/UINT32_MAX;
 		return (minimum+floor((maximum+1-minimum)*r));
 	}
 
+
 };
+
 
 
 #endif
