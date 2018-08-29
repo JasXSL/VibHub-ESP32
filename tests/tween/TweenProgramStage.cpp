@@ -126,7 +126,20 @@ float TweenProgramStage::getValueAtDelta( long internalDelta ){
 			return easeBack(b,c,t,d,easeType);
 		case Ease::SINE:
 			return easeSine(b,c,t,d,easeType);
-
+		case Ease::QUAD:
+			return easeQuad(b,c,t,d,easeType);
+		case Ease::CUBIC:
+			return easeCubic(b,c,t,d,easeType);
+		case Ease::QUINT:
+			return easeQuint(b,c,t,d,easeType);
+		case Ease::BOUNCE:
+			return easeBounce(b,c,t,d,easeType);
+		case Ease::CIRCULAR:
+			return easeCircular(b,c,t,d,easeType);
+		case Ease::ELASTIC:
+			return easeElastic(b,c,t,d,easeType);
+		case Ease::EXPONENTIAL:
+			return easeExponential(b,c,t,d,easeType);
 	}
 	// Linear case
 	return easeLinear(b,c,t,d);	// Linear formula

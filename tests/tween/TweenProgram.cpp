@@ -7,7 +7,7 @@ TweenProgram::TweenProgram() :
 	repeats(0)
 {}
 TweenProgram::TweenProgram( int re ){
-	repeats = _repeats = re;
+	reset(re);
 }
 		
 void TweenProgram::addStageFromJson(JsonObject &st){
@@ -20,12 +20,11 @@ void TweenProgram::addStageFromJson(JsonObject &st){
 
 
 // Start the tween
-void TweenProgram::start( float initVal ){
+void TweenProgram::start(){
 
 	// Reset stuff
 	completed = false;
 	_repeats = repeats;
-	value = initVal;
 	generateStages();
 
 }
@@ -45,6 +44,15 @@ void TweenProgram::generateStages(){
 	}
 	_totalTime = duration;
 	_started = millis();
+	//Serial.printf("Program total duration %i, started %i \n", _totalTime, _started);
+
+}
+
+// Wipes the stages
+void TweenProgram::reset( int rep ){
+	
+	repeats = _repeats = rep;
+	std::vector<std::unique_ptr<TweenProgramStage>>().swap(stages);
 
 }
 

@@ -15,10 +15,10 @@ class TweenProgram{
 
 		TweenProgram();
 		TweenProgram( int re );
-		//void addStage(TweenProgramStage st);
 		void addStageFromJson(JsonObject &st);
-		void start( float initVal = 0 );			// Start the tween and reset everything
+		void start();								// Resets loops, generates randobjects, and starts the tween
 		void generateStages();						// Unsed on program start or loop to reload the stages with randobjects etc
+		void reset( int rep );						// Resets the stages and sets repeats, lets you keep the program without destroying it
 		bool loop();			// Updates TweenProgram.value Returns false if the program has completed and no stages are left.
 		
 
