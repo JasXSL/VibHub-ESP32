@@ -4,7 +4,8 @@
 
 // Constructor
 TweenProgram::TweenProgram() :
-	repeats(0)
+	repeats(0),
+	completed(true)
 {}
 TweenProgram::TweenProgram( int re ){
 	reset(re);

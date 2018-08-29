@@ -7,7 +7,7 @@ http://www.ti.com/lit/ds/symlink/drv8833.pdf
 #include "Motor.h"
 #include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson
 
-#define DEBUG
+// #define DEBUG
 
 Motor::Motor( uint8_t pin_in1, uint8_t pin_in2 ) :
     _duty(0),
