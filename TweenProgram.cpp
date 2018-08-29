@@ -4,7 +4,8 @@
 
 // Constructor
 TweenProgram::TweenProgram() :
-	repeats(0)
+	repeats(0),
+	completed(true)
 {}
 TweenProgram::TweenProgram( int re ){
 	reset(re);
@@ -45,7 +46,7 @@ void TweenProgram::generateStages(){
 	}
 	_totalTime = duration;
 	_started = millis();
-	//Serial.printf("Program stages generated, free heap: %i \n", ESP.getFreeHeap());
+	Serial.printf("Program stages generated, free heap: %i \n", ESP.getFreeHeap());
 	//Serial.printf("Program total duration %i, started %i \n", _totalTime, _started);
 
 }
