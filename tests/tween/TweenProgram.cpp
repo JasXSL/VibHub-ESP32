@@ -26,6 +26,7 @@ void TweenProgram::start(){
 	completed = false;
 	_repeats = repeats;
 	generateStages();
+	
 
 }
 
@@ -44,6 +45,7 @@ void TweenProgram::generateStages(){
 	}
 	_totalTime = duration;
 	_started = millis();
+	Serial.printf("Program stages generated, free heap: %i \n", ESP.getFreeHeap());
 	//Serial.printf("Program total duration %i, started %i \n", _totalTime, _started);
 
 }

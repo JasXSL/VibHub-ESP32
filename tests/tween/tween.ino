@@ -4,9 +4,6 @@
 	Needed unit tests: 
 
 	- Memory test
-	- RandObjects
-	- Destructors?
-	- Infinite loops
 
 */
 
@@ -135,9 +132,9 @@ void setup() {
 
 void loop(){
 	if( program.loop() ){
-		Serial.printf("Program value %f \n", program.value);
+		//Serial.printf("Program value %f \n", program.value);
 		ledcWrite(0, round(program.value));
-		delay(17);
+		delay(34);
 	}
 	else{
 		++step;
@@ -147,9 +144,10 @@ void loop(){
 			downFromLastValue();
 		else if(step == 3)
 			oneToThreeFlashes();
-		else if(step == 4)
-			Serial.println("Done");
-			//infiniteRandomSinusoid();
+		else if(step == 4){
+			Serial.println("Going infinite");
+			infiniteRandomSinusoid();
+		}
 		else
 			delay(1000);
 	}
