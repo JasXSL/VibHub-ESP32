@@ -25,7 +25,7 @@ namespace Configuration{
     const uint8_t SLED_BRIGHTNESS = 50;                     // Status LED brightness, 0-255
 
 #ifdef FALSE
-    // GPIO Assignment
+    // Breadboard GPIO Assignments
     const uint8_t PIN_SLED_R = 23;                          // GPIO pin for RGB (inverse, a PWM of 255 turns off)
     const uint8_t PIN_SLED_G = 19;
     const uint8_t PIN_SLED_B = 22;
@@ -40,12 +40,12 @@ namespace Configuration{
     const uint8_t PIN_MOTOR_D_IN1 = 5;
     const uint8_t PIN_MOTOR_D_IN2 = 21;
 #else
-    // GPIO Assignment
-    const uint8_t PIN_SLED_R        = 14;                           // GPIO pin for RGB (inverse, a PWM of 255 turns off)
+    // ESP32 1.0 Board GPIO Assignments
+    const uint8_t PIN_SLED_R        = 14;   // GPIO pin for RGB (inverse, a PWM of 255 turns off)
     const uint8_t PIN_SLED_G        = 12;
     const uint8_t PIN_SLED_B        = 27;
-    const uint8_t PIN_CONFIG_BUTTON = 26;                   // Configuration pin. Use a pull-up resistor
-    const uint8_t PIN_NSLEEP        = 2;
+    const uint8_t PIN_CONFIG_BUTTON = 26;   // Configuration pin. Use a pull-up resistor
+    const uint8_t PIN_NSLEEP        = 2;    // Disables motor drivers when low
     const uint8_t PIN_MOTOR_A_IN1   = 13;
     const uint8_t PIN_MOTOR_A_IN2   = 15;
     const uint8_t PIN_MOTOR_B_IN1   = 4;
@@ -54,10 +54,10 @@ namespace Configuration{
     const uint8_t PIN_MOTOR_C_IN2   = 5;
     const uint8_t PIN_MOTOR_D_IN1   = 19;
     const uint8_t PIN_MOTOR_D_IN2   = 18;
-    const uint8_t PIN_MOTOR_FAULT1  = 35;
-    const uint8_t PIN_MOTOR_FAULT2  = 34;
-    const uint8_t PIN_SDA           = 21;
-    const uint8_t PIN_SCL           = 22;
+    const uint8_t PIN_MOTOR_FAULT1  = 35;   // Currently unused
+    const uint8_t PIN_MOTOR_FAULT2  = 34;   // Currently unused
+    const uint8_t PIN_SDA           = 21;   // Currently unused
+    const uint8_t PIN_SCL           = 22;   // Currently unused
 #endif
     
 
