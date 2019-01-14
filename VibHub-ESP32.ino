@@ -12,6 +12,7 @@
     #include "ApiClient.h"
     #include "StatusLED.h"
     #include "Pwm.h"
+    #include "VHBluetooth.h"
 
 	/*
     #include <ArduinoOTA.h>
@@ -30,10 +31,10 @@ void setup() {
     statusLED.initialize();
     statusLED.setState(StatusLED::STATE_BOOT);
     
+    
     configButton.setup();
     apiClient.setup();
-    
-    
+   
     // Reset config and wifi if config button is held on boot
 	bool reset = false;
     if( configButton.isPressed() ){
@@ -53,9 +54,15 @@ void setup() {
     
     //Connect to server
     apiClient.connect();
-    
+
+
+    VHBluetooth* pMainBleServer = new VHBluetooth();
+    pMainBleServer->setStackSize(20000);
+    pMainBleServer->start();
+
 
     // Test if it works
+
     HTTPClient http;
     Serial.printf("Wifi Status: %i\n", WiFi.status() == WL_CONNECTED);
     http.begin("http://vibhub.io/api/"); //Specify the URL
@@ -63,6 +70,7 @@ void setup() {
     Serial.printf("HTTP code %i\n", httpCode);
     http.end(); //Free the resources
     
+
     //TODO: dedicated programming mode
     /*
     Serial.println("OTA: Setting up");
@@ -99,13 +107,16 @@ void setup() {
 	*/
 }
 
+
+// Main program lööp
 void loop() {
+
 
     apiClient.loop();
     configButton.loop();
 
     //ArduinoOTA.handle();
-	//delay(1000);
+	//delay(100);
     
 }
 

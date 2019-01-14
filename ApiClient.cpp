@@ -166,8 +166,7 @@ void ApiClient::event_p( const char * payload, size_t length ){
     int i;
     for( i = 0; i < 4; ++i ){
 
-        motors[i].stopProgram();  // Stop any running program when this is received
-        motors[i].setPWM(vibArray[i]);
+        setFlatPWM(i, vibArray[i]);
 
     }
 
@@ -186,6 +185,11 @@ void ApiClient::event_ota( const char * payload, size_t length ){
     
     fwUpdate.start(file, md5);
     
+}
+
+void ApiClient::setFlatPWM( uint8_t motor, uint8_t value = 0 ){
+    motors[motor].stopProgram();  // Stop any running program when this is received
+    motors[motor].setPWM(value);
 }
 
 

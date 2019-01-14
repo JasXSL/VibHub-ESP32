@@ -23,8 +23,11 @@ class ApiClient {
         
         bool connected() {return _connected;}
         
+        
         void loop();
         
+        void setFlatPWM( uint8_t motor, uint8_t value );
+
     private:
         SocketIoClient _socket;
         
@@ -39,8 +42,8 @@ class ApiClient {
         
         bool _connected;
         bool _running;
-        
         std::vector<Motor> motors;		// Vector containing motors to be PWMed
+        
 };
 
 extern ApiClient apiClient;
