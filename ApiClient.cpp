@@ -90,7 +90,7 @@ void ApiClient::event_vib( const char * payload, size_t length ){
     DynamicJsonBuffer jsonBuffer;
     JsonVariant variant = jsonBuffer.parse(payload);
 
-    variant.printTo(Serial);
+    //variant.printTo(Serial);
 
     if( variant.success() ){
 

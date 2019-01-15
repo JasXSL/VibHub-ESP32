@@ -27,7 +27,6 @@ void TweenProgram::start(){
 	completed = false;
 	_repeats = repeats;
 	generateStages();
-	
 
 }
 
@@ -55,7 +54,7 @@ void TweenProgram::generateStages(){
 void TweenProgram::reset( int rep ){
 	
 	repeats = _repeats = rep;
-	std::vector<std::unique_ptr<TweenProgramStage>>().swap(stages);
+	std::vector<std::unique_ptr<TweenProgramStage>>().swap(stages);	// Overwrites the stages
 
 }
 
@@ -65,6 +64,7 @@ bool TweenProgram::loop(){
 	bool pre = completed;
 	if( !completed ){
 
+		Serial.println("Program is NOT completed");
 		long delta = millis()-_started;
 		// Program has ended
 		if( delta >= _totalTime ){
@@ -97,6 +97,9 @@ bool TweenProgram::loop(){
 			// The active stage or if it's the last element
 			if( tot+dur >= delta || i == stages.size()-1 ){
 
+				if( delta-tot < 0 ){
+					Serial.printf("Invalid delta generated. Delta: %i, Tot: %i\n", delta, tot);
+				}
 				value = stage->getValueAtDelta(delta-tot);	// Delta here is relative to the program
 				break;
 

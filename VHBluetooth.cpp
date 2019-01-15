@@ -64,6 +64,16 @@ void bleCharacteristicCallback::onWrite(BLECharacteristic* pCharacteristic) {
 
 	}
 
+
+	else if( uuid == bleCharacteristicCallback::CHARACTERISTIC_PROGRAM ){
+
+		
+		std::string value = pCharacteristic->getValue();
+		//Serial.printf("BLE Program received: %s length: %i\n", value.c_str(), value.length());
+		apiClient.event_vib(value.c_str(), value.length());
+
+	}
+
 	//Bicycle::onFrontLightColorsWrite(uint8_t value[3])
 	//Serial.printf("BLE received on characteristic: %s\n", uuid);
 }
@@ -103,17 +113,18 @@ void VHBluetooth::run(void *data) {
 	pCharacteristic->setValue(out, 4);
 	
 	// Rear light characteristic
-	/*
-	Serial.printf("Creating second characteristic %s\n", bleCharacteristicCallback::CHARACTERISTIC_FLAGS);
+
+	Serial.printf("Creating second characteristic %s\n", bleCharacteristicCallback::CHARACTERISTIC_PROGRAM);
 	pCharacteristic = pService->createCharacteristic(
-		BLEUUID(bleCharacteristicCallback::CHARACTERISTIC_FLAGS),
+		BLEUUID(bleCharacteristicCallback::CHARACTERISTIC_PROGRAM),
 		BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE
 	);
 	pCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
 	pCharacteristic->setCallbacks(callback);
-	out[0] = bicycle->setting_flags;
-	pCharacteristic->setValue(out, 1);
+	
+	pCharacteristic->setValue("{}");
 
+	/*
 	// Sensor sensitivity threshold
 	// CHARACTERISTIC_THRESHOLD
 	Serial.printf("Creating third characteristic %s\n", bleCharacteristicCallback::CHARACTERISTIC_THRESHOLD);
