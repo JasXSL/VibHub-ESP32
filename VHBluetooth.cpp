@@ -1,6 +1,8 @@
 #include "VHBluetooth.h"
 #include "ApiClient.h"
 
+
+
 uint32_t MySecurity::onPassKeyRequest(){
 	Serial.println("PassKeyRequest");
 	return 123456;
@@ -24,6 +26,8 @@ void MySecurity::onAuthenticationComplete(esp_ble_auth_cmpl_t cmpl){
 		uint16_t length;
 		esp_ble_gap_get_whitelist_size(&length);
 		Serial.printf("size: %d\n", length);
+		Serial.println("Turning off bonding");
+		pSecurity->setCapability(ESP_IO_CAP_IN);
 	}
 }
 
@@ -108,7 +112,7 @@ void VHBluetooth::run(void *data) {
 		BLEUUID(bleCharacteristicCallback::CHARACTERISTIC_PWM),
 		BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE
 	);
-	pCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
+	//pCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
 	pCharacteristic->setCallbacks(callback);
 	pCharacteristic->setValue(out, 4);
 	
@@ -119,25 +123,11 @@ void VHBluetooth::run(void *data) {
 		BLEUUID(bleCharacteristicCallback::CHARACTERISTIC_PROGRAM),
 		BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE
 	);
-	pCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
+	//pCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
 	pCharacteristic->setCallbacks(callback);
 	
 	pCharacteristic->setValue("{}");
 
-	/*
-	// Sensor sensitivity threshold
-	// CHARACTERISTIC_THRESHOLD
-	Serial.printf("Creating third characteristic %s\n", bleCharacteristicCallback::CHARACTERISTIC_THRESHOLD);
-	pCharacteristic = pService->createCharacteristic(
-		BLEUUID(bleCharacteristicCallback::CHARACTERISTIC_THRESHOLD),
-		BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE
-	);
-	pCharacteristic->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
-	pCharacteristic->setCallbacks(callback);
-	out[1] = bicycle->photocell_threshold&0xFF;
-	out[0] = (bicycle->photocell_threshold>>8)&0xFF;
-	pCharacteristic->setValue(out, 2);
-	*/
 	Serial.println("Starting");
 
 	pService->start();
@@ -145,13 +135,21 @@ void VHBluetooth::run(void *data) {
 	BLEAdvertising* pAdvertising = pServer->getAdvertising();
 	pAdvertising->addServiceUUID(BLEUUID(pService->getUUID()));
 
-	BLESecurity *pSecurity = new BLESecurity();
-	pSecurity->setAuthenticationMode(ESP_LE_AUTH_REQ_SC_BOND);
-	pSecurity->setCapability(ESP_IO_CAP_OUT);
-	pSecurity->setInitEncryptionKey(ESP_BLE_ENC_KEY_MASK | ESP_BLE_ID_KEY_MASK);
+	pAdvertising->setScanResponse(true);
+
+
+	pSecurity->setAuthenticationMode(ESP_LE_AUTH_BOND);
+	//pSecurity->setCapability(ESP_IO_CAP_OUT);
+	//pSecurity->setInitEncryptionKey(ESP_BLE_ENC_KEY_MASK | ESP_BLE_ID_KEY_MASK);
+	pSecurity->setCapability(ESP_IO_CAP_IN);
 
 	pAdvertising->start();
 
+
 	Serial.println("Advertising started!");
 	delay(portMAX_DELAY);
+
+	
 }
+
+BLESecurity *pSecurity = new BLESecurity();

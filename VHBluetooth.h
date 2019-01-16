@@ -56,6 +56,8 @@ class VHBluetooth: public Task{
 		void run(void *data);
 };
 
+extern BLESecurity *pSecurity;
+
 #endif
 
 
