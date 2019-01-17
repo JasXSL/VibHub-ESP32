@@ -360,12 +360,14 @@ const char JS_SHARED[] PROGMEM = "\n"
 class VhWifi{
 	public:
 		VhWifi(void) : 
+			connected(false),
 			shouldSaveConfig(false)
 		{}
 		void connect( bool force=false, bool resetSetting=false );
 		void clearSettings();
 		void saveConfigCallback();
 		void configModeCallback( WiFiManager *myWiFiManager );
+		bool connected;
 
 	private:
         WiFiManager* _wifiManager;

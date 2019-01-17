@@ -2,6 +2,7 @@
 #include "Configuration.h"
 #include <Arduino.h>
 #include <ESP32Ticker.h>
+#include "VhWifi.h"
 
 Ticker ledTicker;               // Ticker for LED
 
@@ -113,8 +114,8 @@ void StatusLED::setState( int state ){
     switch(state){
         // std::bind(&ApiClient::event_connect, this, _1, _2)
         case STATE_INIT :
-            setLed(BLUE);
-            Serial.println(" - STATE_INIT blue");
+            setLed(CYAN);
+            Serial.println(" - STATE_INIT cyan too :D");
             break;
         case STATE_PORTAL :
             setLed(BLUE);
@@ -133,8 +134,8 @@ void StatusLED::setState( int state ){
             Serial.println(" - STATE_SOCKET_ERR half green");
             break;
         case STATE_RUNNING :
-            setLed(GREEN);
-            Serial.println(" - STATE_RUNNING green");
+            setLed(vhWifi.connected ? GREEN : BLUE);
+            Serial.printf(" - STATE_RUNNING %s\n", (vhWifi.connected ? 'GREEN' : 'BLUE(tooth)'));
             break;
         default : // STATE_BOOT
             setLed(CYAN);

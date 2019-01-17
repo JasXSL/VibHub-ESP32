@@ -8,7 +8,7 @@
 UserSettings::UserSettings(void) :
     //server(Configuration::DEFAULT_HOST),
     port(Configuration::DEFAULT_PORT),
-    enable_bluetooth(false)
+    enable_bluetooth(true)
 {
     strcpy(server, Configuration::DEFAULT_HOST);
 }

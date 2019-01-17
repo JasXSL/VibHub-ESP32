@@ -6,6 +6,7 @@
 #include "VhWifi.h"
 #include "StatusLED.h"
 #include <Arduino.h>
+#include <WiFi.h>
 #include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson
 #include <qrcode.h>
 #include "Configuration.h"
@@ -74,11 +75,29 @@ void VhWifi::connect( bool force, bool reset ){
     }
 
     // Try to connect to AP, if that doesn't work, enter config mode
-    else if( !wifiManager.autoConnect(ssid.c_str()) ){
+    else{
+        
+        WiFi.begin();
+        int i = 0;
+        while (WiFi.status() != WL_CONNECTED && i < 30) { // Wait 3 sec for the Wi-Fi to connect
+            ++i;
+            delay(100);
+        }
 
-        // Config mode failed to enter
-        Serial.println("VhWifi: Failed to connect and hit timeout");
-        handleFatalError();
+        connected = WiFi.status() == WL_CONNECTED;
+
+        //if( !wifiManager.autoConnect(ssid.c_str()) ){
+        if( !userSettings.enable_bluetooth ){
+            if( !wifiManager.startConfigPortal(ssid.c_str()) ){
+                // Config mode failed to enter
+                Serial.println("VhWifi: Failed to connect and hit timeout");
+                handleFatalError();
+            }
+        }
+        else{
+            Serial.println("VhWifi: Failed to connect, but bluetooth is enabled.");
+            return;
+        }
 
     }
     

@@ -10,6 +10,7 @@
 #include "UserSettings.h"
 #include "FirmwareUpdate.h"
 #include <ArduinoJson.h>
+#include "VhWifi.h"
 
 ApiClient::ApiClient(void) :
     _socket(),
