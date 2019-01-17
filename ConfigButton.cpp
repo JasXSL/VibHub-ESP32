@@ -11,6 +11,7 @@
 #include "VhWifi.h"
 #include "UserSettings.h"
 #include "ApiClient.h"
+#include "VHBluetooth.h"
 
 unsigned long _heldTime;
 int _lastButtonState;
@@ -72,48 +73,59 @@ bool ConfigButton::loop( bool isReconfiguring ){
     if( buttonState == Configuration::BUTTON_DOWN && _lastButtonState == Configuration::BUTTON_UP )
         _heldTime = millis();
 
+    // Start after holding for 4 seconds
+    else if( buttonState == Configuration::BUTTON_DOWN && delta > Configuration::BUTTON_HOLD_TIME ){
+
+        Serial.println("ConfigButton:  Button Held >4s");
+        if( !isReconfiguring ){
+
+            Serial.println("ConfigButton: Going in to manual reconfig");
+            // Run reconfig next tick
+            // Doing it here will cause crash
+            _doReconfigure = true;
+            // _isReconfiguring = true;
+
+        }
+        else{
+
+            Serial.println("ConfigButton: Aborting manual reconfig to do reset");
+            statusLED.setState(StatusLED::STATE_WIFI_ERR);
+            
+            Serial.println("ConfigButton: userSettings.reset");
+            userSettings.reset();
+
+            Serial.println("ConfigButton: vhWifi.clearSettings");
+            vhWifi.clearSettings();
+            
+            //vhWifi will trigger the reboot
+            return true;
+
+        }
+
+    }
+    else if( buttonState == Configuration::BUTTON_DOWN && delta > Configuration::BUTTON_BT_MIN_TIME && delta < Configuration::BUTTON_BT_MIN_TIME+50 ){
+        statusLED.quickFlashBluetooth();
+    }
+
     // Released
     else if( buttonState == Configuration::BUTTON_UP && _lastButtonState == Configuration::BUTTON_DOWN ){
 
         _buttonHeld = false;
-        if( delta > Configuration::BUTTON_HOLD_TIME ){
+        if( delta > Configuration::BUTTON_BT_MIN_TIME && delta < Configuration::BUTTON_BT_MAX_TIME ){
 
-            Serial.println("ConfigButton:  Button Held >3s");
-            if( !isReconfiguring ){
-
-                Serial.println("ConfigButton: Going in to manual reconfig");
-                // Run reconfig next tick
-                // Doing it here will cause crash
-                _doReconfigure = true;
-                // _isReconfiguring = true;
-
-            }
-            else{
-
-                Serial.println("ConfigButton: Aborting manual reconfig to do reset");
-                statusLED.setState(StatusLED::STATE_WIFI_ERR);
-                
-                Serial.println("ConfigButton: userSettings.reset");
-                userSettings.reset();
-
-                Serial.println("ConfigButton: vhWifi.clearSettings");
-                vhWifi.clearSettings();
-                
-                //vhWifi will trigger the reboot
-                return true;
-
-            }
+            // Enable bluetooth pairing
+            pSecurity->setCapability(ESP_IO_CAP_NONE);
+            statusLED.setBluetoothPairable( true );
+            Serial.println("Enabling bluetooth bonding");
 
         }
-
         else if( delta > Configuration::BUTTON_DEBOUNCE ){
 
             Serial.println("ConfigButton: Button Pressed");
             if( isReconfiguring ){
 
                 // _isReconfiguring = false;
-                Serial.println("ConfigButton: Stopping reconfig");
-                
+                Serial.println("ConfigButton: Stopping reconfig");                
                 // Give feedback
                 statusLED.setState(StatusLED::STATE_INIT);
                 

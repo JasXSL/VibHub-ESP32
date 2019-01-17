@@ -12,6 +12,7 @@ const uint8_t StatusLED::STATE_WIFI_ERR = 3;
 const uint8_t StatusLED::STATE_SOCKET_ERR = 4;
 const uint8_t StatusLED::STATE_RUNNING = 5;
 
+
 #define RED     0x1
 #define GREEN   0x2
 #define BLUE    0x4
@@ -26,7 +27,8 @@ const uint8_t StatusLED::STATE_RUNNING = 5;
 
 StatusLED::StatusLED() :
     programState(-1),
-    ledTickerHigh(false)
+    ledTickerHigh(false),
+    bluetoothPairable(false)
     //p_red(),
     //p_green(),
     //p_blue()
@@ -68,18 +70,46 @@ void StatusLED::flashingTick(int color){
 
 }
 
+void StatusLED::setBluetoothPairable( bool pairable ){
+
+    bluetoothPairable = pairable;
+    ledTicker.detach();
+
+    // Bluetooth pairing overrides, since the device can be used while pairing is active
+    if( pairable ){
+        setLed(BLUE);
+        ledTickerHigh = true;
+        ledTicker.attach_ms(500, StatusLED::flashingTick, BLUE);
+    }
+    else{
+        int state = programState;
+        programState = -1;
+        setState(state);
+    }
+
+}
+
+void StatusLED::quickFlashBluetooth(){
+    setLed(BLUE);
+    delay(50);
+    int state = programState;
+    programState = -1;
+    StatusLED::setState( state );
+}
+
 void StatusLED::setState( int state ){
 
     if( programState == state )
         return;
 
     programState = state;
+
+    if( bluetoothPairable )
+        return;
     
     Serial.printf("setState: %i\n", state);
     
     ledTicker.detach();
-
-
     switch(state){
         // std::bind(&ApiClient::event_connect, this, _1, _2)
         case STATE_INIT :

@@ -18,8 +18,6 @@
     #include <ArduinoOTA.h>
 	*/
 
-bool sec_enabled = false;
-
 // Program begins
 void setup() {
 
@@ -116,14 +114,6 @@ void loop() {
 
     apiClient.loop();
     configButton.loop();
-
-    if( millis() > 30000 && !sec_enabled ){
-        sec_enabled = true;
-        
-        pSecurity->setCapability(ESP_IO_CAP_NONE);
-        Serial.println("Enabling bluetooth bonding");
-        
-    }
     //ArduinoOTA.handle();
 	//delay(100);
     

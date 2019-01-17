@@ -1,6 +1,6 @@
 #include "VHBluetooth.h"
 #include "ApiClient.h"
-
+#include "StatusLED.h"
 
 
 uint32_t MySecurity::onPassKeyRequest(){
@@ -28,6 +28,7 @@ void MySecurity::onAuthenticationComplete(esp_ble_auth_cmpl_t cmpl){
 		Serial.printf("size: %d\n", length);
 		Serial.println("Turning off bonding");
 		pSecurity->setCapability(ESP_IO_CAP_IN);
+		statusLED.setBluetoothPairable( false );
 	}
 }
 
