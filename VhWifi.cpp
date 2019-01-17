@@ -36,10 +36,15 @@ void VhWifi::connect( bool force, bool reset ){
     char port[6];
     itoa(userSettings.port, port, 10);
     WiFiManagerParameter serverPort("port", "Server Port", port, 6);
+
+    char enableBluetoothVal[2];
+    itoa(userSettings.enable_bluetooth, enableBluetoothVal, 10);
+    WiFiManagerParameter enableBluetooth("enable_bluetooth", "Bluetooth", enableBluetoothVal, 6);
     
     //wifiManager.addParameter(&devId);
     wifiManager.addParameter(&serverHost);
     wifiManager.addParameter(&serverPort);
+    wifiManager.addParameter(&enableBluetooth);
 
     //set config save notify callback
     wifiManager.setSaveConfigCallback(std::bind(&VhWifi::saveConfigCallback, this));
@@ -87,7 +92,7 @@ void VhWifi::connect( bool force, bool reset ){
         char p[5];
         strcpy(p, serverPort.getValue());
         userSettings.port = atoi(p);
-        
+        userSettings.enable_bluetooth = atoi(enableBluetooth.getValue());
         userSettings.save();
 
         ESP.restart();

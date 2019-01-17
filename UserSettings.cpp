@@ -7,7 +7,8 @@
 
 UserSettings::UserSettings(void) :
     //server(Configuration::DEFAULT_HOST),
-    port(Configuration::DEFAULT_PORT)
+    port(Configuration::DEFAULT_PORT),
+    enable_bluetooth(false)
 {
     strcpy(server, Configuration::DEFAULT_HOST);
 }
@@ -60,6 +61,7 @@ void UserSettings::load( bool reset ){
                     strcpy(p, json["port"]);
                     port = atoi(p);
                     strcpy(deviceid, json["deviceid"]);
+                    enable_bluetooth = json["enable_bluetooth"];
                     
                 }
                 else
@@ -75,6 +77,7 @@ void UserSettings::load( bool reset ){
     Serial.printf("DeviceID: %s\n", deviceid);
     Serial.printf("Server: %s\n", server);
 	Serial.printf("Port: %i\n", port);
+	Serial.printf("Bluetooth: %i\n", enable_bluetooth);
 
 	if( deviceid[0] == '\0' || port == 0 || port > 65535 || server[0] == '\0' ){
 
@@ -127,6 +130,7 @@ void UserSettings::save(){
 	json["server"] = server;
 	json["port"] = port;
 	json["deviceid"] = deviceid;
+	json["enable_bluetooth"] = enable_bluetooth;
 
 	File configFile = SPIFFS.open(Configuration::SETTINGS_FILE, "w");
 	if( !configFile )

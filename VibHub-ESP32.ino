@@ -55,10 +55,12 @@ void setup() {
     //Connect to server
     apiClient.connect();
 
-
-    VHBluetooth* pMainBleServer = new VHBluetooth();
-    pMainBleServer->setStackSize(20000);
-    pMainBleServer->start();
+    // Init bluetooth
+    if( userSettings.enable_bluetooth ){
+        VHBluetooth* pMainBleServer = new VHBluetooth();
+        pMainBleServer->setStackSize(20000);
+        pMainBleServer->start();
+    }
 
 
     // Test if it works

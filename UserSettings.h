@@ -17,6 +17,7 @@ class UserSettings{
         char server[64];
         unsigned int port;
         char deviceid[64];
+        bool enable_bluetooth;
         
 	private:
         void gen_random( char *s, const int len );
