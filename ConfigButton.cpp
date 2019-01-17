@@ -103,7 +103,7 @@ bool ConfigButton::loop( bool isReconfiguring ){
         }
 
     }
-    else if( buttonState == Configuration::BUTTON_DOWN && delta > Configuration::BUTTON_BT_MIN_TIME && delta < Configuration::BUTTON_BT_MIN_TIME+50 ){
+    else if( userSettings.enable_bluetooth && buttonState == Configuration::BUTTON_DOWN && delta > Configuration::BUTTON_BT_MIN_TIME && delta < Configuration::BUTTON_BT_MIN_TIME+50 ){
         statusLED.quickFlashBluetooth();
     }
 
@@ -111,7 +111,7 @@ bool ConfigButton::loop( bool isReconfiguring ){
     else if( buttonState == Configuration::BUTTON_UP && _lastButtonState == Configuration::BUTTON_DOWN ){
 
         _buttonHeld = false;
-        if( delta > Configuration::BUTTON_BT_MIN_TIME && delta < Configuration::BUTTON_BT_MAX_TIME ){
+        if( userSettings.enable_bluetooth && delta > Configuration::BUTTON_BT_MIN_TIME && delta < Configuration::BUTTON_BT_MAX_TIME ){
 
             // Enable bluetooth pairing
             pSecurity->setCapability(ESP_IO_CAP_NONE);
