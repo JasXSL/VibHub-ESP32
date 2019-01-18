@@ -28,6 +28,7 @@ class ApiClient {
         
         void setFlatPWM( uint8_t motor, uint8_t value );
         void event_vib(const char * payload, size_t length);
+        bool motorRunning();    // Returns true if at least one motor is above 0
 
     private:
         SocketIoClient _socket;

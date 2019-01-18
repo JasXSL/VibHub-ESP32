@@ -120,6 +120,7 @@ void loop() {
 
     apiClient.loop();
     configButton.loop();
+    userSettings.loop();
     //ArduinoOTA.handle();
 	//delay(100);
     

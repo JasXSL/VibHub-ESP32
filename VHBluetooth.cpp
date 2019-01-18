@@ -1,7 +1,7 @@
 #include "VHBluetooth.h"
 #include "ApiClient.h"
 #include "StatusLED.h"
-
+#include "UserSettings.h"
 
 uint32_t MySecurity::onPassKeyRequest(){
 	Serial.println("PassKeyRequest");
@@ -42,6 +42,7 @@ constexpr char bleCharacteristicCallback::CHARACTERISTIC_WIFI_PASS[37];
 
 void bleCharacteristicCallback::onWrite(BLECharacteristic* pCharacteristic) {
 
+	userSettings.resetSleepTimer();
 	String uuid = pCharacteristic->getUUID().toString().c_str();
 
 	// Front light colors, expecting a 3x byte array
@@ -84,6 +85,7 @@ void bleCharacteristicCallback::onWrite(BLECharacteristic* pCharacteristic) {
 }
 
 void bleCharacteristicCallback::onRead(BLECharacteristic* pCharacteristic) {
+	userSettings.resetSleepTimer();
 	std::string msg = pCharacteristic->getValue();
 	Serial.printf("BLE received: %s, %i\n", msg.c_str(), msg.length());
 }

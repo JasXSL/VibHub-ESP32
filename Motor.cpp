@@ -57,6 +57,10 @@ void Motor::update(){
 
 }
 
+bool Motor::running(){
+    return _duty > 0;
+}
+
 // fast_decay and forward are false by default
 void Motor::setPWM( uint8_t duty, bool fast_decay, bool forward ){
 

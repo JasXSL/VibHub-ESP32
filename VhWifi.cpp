@@ -41,10 +41,15 @@ void VhWifi::connect( bool force, bool reset ){
     char enableBluetoothVal[2];
     itoa(userSettings.enable_bluetooth, enableBluetoothVal, 10);
     WiFiManagerParameter enableBluetooth("enable_bluetooth", "Bluetooth", enableBluetoothVal, 6);
+
+    char sleepTimerVal[2];
+    itoa(userSettings.sleep_after_min, sleepTimerVal, 10);
+    WiFiManagerParameter sleepTimer("sleep_after_min", "Turn off after minutes of inactivity", sleepTimerVal, 6);
     
     //wifiManager.addParameter(&devId);
     wifiManager.addParameter(&serverHost);
     wifiManager.addParameter(&serverPort);
+    wifiManager.addParameter(&sleepTimer);
     wifiManager.addParameter(&enableBluetooth);
 
     //set config save notify callback
@@ -112,6 +117,7 @@ void VhWifi::connect( bool force, bool reset ){
         strcpy(p, serverPort.getValue());
         userSettings.port = atoi(p);
         userSettings.enable_bluetooth = atoi(enableBluetooth.getValue());
+        userSettings.sleep_after_min = atoi(sleepTimer.getValue());
         userSettings.save();
 
         ESP.restart();

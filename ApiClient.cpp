@@ -40,6 +40,15 @@ void ApiClient::setup(){
 
 }
 
+bool ApiClient::motorRunning(){
+    uint8_t i;
+    for( i = 0; i < 4; ++i ){
+        if( motors[i].running() )
+            return true;
+    }
+    return false;
+}
+
 
 void ApiClient::connect(){
 
@@ -87,6 +96,8 @@ void ApiClient::event_disconnect( const char * payload, size_t length ){
 void ApiClient::event_vib( const char * payload, size_t length ){
 
     Serial.printf("ApiClient::event_vib: %s\n", payload);
+
+    userSettings.resetSleepTimer();
 
     DynamicJsonBuffer jsonBuffer;
     JsonVariant variant = jsonBuffer.parse(payload);
@@ -164,6 +175,8 @@ void ApiClient::event_p( const char * payload, size_t length ){
     vibArray[3] = (int)((data & 0X000000FF));
     Serial.printf("ApiClient::event_p - v0: %u, v1: %u, v2: %u, v3: %u\n", vibArray[0], vibArray[1], vibArray[2], vibArray[3]);
 
+    userSettings.resetSleepTimer();
+
     int i;
     for( i = 0; i < 4; ++i ){
 
@@ -178,6 +191,7 @@ void ApiClient::event_ota( const char * payload, size_t length ){
     
     Serial.printf("ApiClient::event_ota - payload: %s\n", payload);
     
+    userSettings.resetSleepTimer();
     DynamicJsonBuffer jsonBuffer;
     JsonObject& root = jsonBuffer.parse(payload);
     
