@@ -91,8 +91,8 @@ void StatusLED::setBluetoothPairable( bool pairable ){
 }
 
 void StatusLED::quickFlashBluetooth(){
-    setLed(BLUE);
-    delay(50);
+    setLed(CYAN);
+    delay(150);
     int state = programState;
     programState = -1;
     StatusLED::setState( state );

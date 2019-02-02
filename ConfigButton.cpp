@@ -105,7 +105,7 @@ bool ConfigButton::loop( bool isReconfiguring ){
         }
 
     }
-    else if( userSettings.enable_bluetooth && buttonState == Configuration::BUTTON_DOWN && delta > Configuration::BUTTON_BT_MIN_TIME && delta < Configuration::BUTTON_BT_MIN_TIME+50 ){
+    else if( userSettings.enable_bluetooth && buttonState == Configuration::BUTTON_DOWN && delta > Configuration::BUTTON_BT_MIN_TIME && delta < Configuration::BUTTON_BT_MIN_TIME+100 ){
         statusLED.quickFlashBluetooth();
     }
 
