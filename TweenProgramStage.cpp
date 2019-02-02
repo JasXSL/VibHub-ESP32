@@ -106,6 +106,8 @@ float TweenProgramStage::getValueAtDelta( long internalDelta ){
 	if( internalDelta >= getDuration() )
 		return outValue();
 	
+	if( duration == 0 )
+		Serial.printf("ERR: InternalDelta less than 0: %i\n", internalDelta);
 
 	float b = inValue;					// Start value
 	float c = intensity-b;				// Change

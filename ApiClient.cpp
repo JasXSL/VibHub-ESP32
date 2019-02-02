@@ -10,6 +10,7 @@
 #include "UserSettings.h"
 #include "FirmwareUpdate.h"
 #include <ArduinoJson.h>
+#include "VhWifi.h"
 
 ApiClient::ApiClient(void) :
     _socket(),
@@ -37,6 +38,15 @@ void ApiClient::setup(){
 
     pinMode(Configuration::PIN_NSLEEP, OUTPUT);
 
+}
+
+bool ApiClient::motorRunning(){
+    uint8_t i;
+    for( i = 0; i < 4; ++i ){
+        if( motors[i].running() )
+            return true;
+    }
+    return false;
 }
 
 
@@ -87,10 +97,12 @@ void ApiClient::event_vib( const char * payload, size_t length ){
 
     Serial.printf("ApiClient::event_vib: %s\n", payload);
 
+    userSettings.resetSleepTimer();
+
     DynamicJsonBuffer jsonBuffer;
     JsonVariant variant = jsonBuffer.parse(payload);
 
-    variant.printTo(Serial);
+    //variant.printTo(Serial);
 
     if( variant.success() ){
 
@@ -163,11 +175,12 @@ void ApiClient::event_p( const char * payload, size_t length ){
     vibArray[3] = (int)((data & 0X000000FF));
     Serial.printf("ApiClient::event_p - v0: %u, v1: %u, v2: %u, v3: %u\n", vibArray[0], vibArray[1], vibArray[2], vibArray[3]);
 
+    userSettings.resetSleepTimer();
+
     int i;
     for( i = 0; i < 4; ++i ){
 
-        motors[i].stopProgram();  // Stop any running program when this is received
-        motors[i].setPWM(vibArray[i]);
+        setFlatPWM(i, vibArray[i]);
 
     }
 
@@ -178,6 +191,7 @@ void ApiClient::event_ota( const char * payload, size_t length ){
     
     Serial.printf("ApiClient::event_ota - payload: %s\n", payload);
     
+    userSettings.resetSleepTimer();
     DynamicJsonBuffer jsonBuffer;
     JsonObject& root = jsonBuffer.parse(payload);
     
@@ -186,6 +200,11 @@ void ApiClient::event_ota( const char * payload, size_t length ){
     
     fwUpdate.start(file, md5);
     
+}
+
+void ApiClient::setFlatPWM( uint8_t motor, uint8_t value = 0 ){
+    motors[motor].stopProgram();  // Stop any running program when this is received
+    motors[motor].setPWM(value);
 }
 
 

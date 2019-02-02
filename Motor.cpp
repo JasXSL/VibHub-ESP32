@@ -7,7 +7,7 @@ http://www.ti.com/lit/ds/symlink/drv8833.pdf
 #include "Motor.h"
 #include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson
 
-// #define DEBUG
+#define DEBUG
 
 Motor::Motor( uint8_t pin_in1, uint8_t pin_in2 ) :
     _duty(0),
@@ -27,10 +27,12 @@ void Motor::loadProgram( JsonArray &stages, int repeats = 0 ){
 		Serial.printf("Loading new program with #%i stages.\n", stages.size());
 	#endif
 	
+    program.completed = true;
 	program.reset(repeats);
 	for( auto stage : stages )
 		program.addStageFromJson(stage.as<JsonObject>());
 	
+    Serial.println("Calling program start");
 	program.start();
 
 }
@@ -53,6 +55,10 @@ void Motor::update(){
 
 	setPWM(_duty);
 
+}
+
+bool Motor::running(){
+    return _duty > 0;
 }
 
 // fast_decay and forward are false by default
@@ -123,7 +129,6 @@ void Motor::setPWM( uint8_t duty, bool fast_decay, bool forward ){
         else{ 
 
 			// slow decay
-            //Serial.printf("Setting duty: %i = %i, %i = %i \n", motor, 255-duty, motor+1, 255);
             pwm_in1.setPWM(255-duty);
             pwm_in2.setPWM(255); 
 

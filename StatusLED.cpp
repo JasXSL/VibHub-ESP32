@@ -2,6 +2,7 @@
 #include "Configuration.h"
 #include <Arduino.h>
 #include <ESP32Ticker.h>
+#include "VhWifi.h"
 
 Ticker ledTicker;               // Ticker for LED
 
@@ -11,6 +12,7 @@ const uint8_t StatusLED::STATE_PORTAL = 2;
 const uint8_t StatusLED::STATE_WIFI_ERR = 3;
 const uint8_t StatusLED::STATE_SOCKET_ERR = 4;
 const uint8_t StatusLED::STATE_RUNNING = 5;
+
 
 #define RED     0x1
 #define GREEN   0x2
@@ -26,7 +28,8 @@ const uint8_t StatusLED::STATE_RUNNING = 5;
 
 StatusLED::StatusLED() :
     programState(-1),
-    ledTickerHigh(false)
+    ledTickerHigh(false),
+    bluetoothPairable(false)
     //p_red(),
     //p_green(),
     //p_blue()
@@ -68,23 +71,51 @@ void StatusLED::flashingTick(int color){
 
 }
 
+void StatusLED::setBluetoothPairable( bool pairable ){
+
+    bluetoothPairable = pairable;
+    ledTicker.detach();
+
+    // Bluetooth pairing overrides, since the device can be used while pairing is active
+    if( pairable ){
+        setLed(BLUE);
+        ledTickerHigh = true;
+        ledTicker.attach_ms(500, StatusLED::flashingTick, BLUE);
+    }
+    else{
+        int state = programState;
+        programState = -1;
+        setState(state);
+    }
+
+}
+
+void StatusLED::quickFlashBluetooth(){
+    setLed(CYAN);
+    delay(150);
+    int state = programState;
+    programState = -1;
+    StatusLED::setState( state );
+}
+
 void StatusLED::setState( int state ){
 
     if( programState == state )
         return;
 
     programState = state;
+
+    if( bluetoothPairable )
+        return;
     
     Serial.printf("setState: %i\n", state);
     
     ledTicker.detach();
-
-
     switch(state){
         // std::bind(&ApiClient::event_connect, this, _1, _2)
         case STATE_INIT :
-            setLed(BLUE);
-            Serial.println(" - STATE_INIT blue");
+            setLed(CYAN);
+            Serial.println(" - STATE_INIT cyan too :D");
             break;
         case STATE_PORTAL :
             setLed(BLUE);
@@ -103,8 +134,8 @@ void StatusLED::setState( int state ){
             Serial.println(" - STATE_SOCKET_ERR half green");
             break;
         case STATE_RUNNING :
-            setLed(GREEN);
-            Serial.println(" - STATE_RUNNING green");
+            setLed(vhWifi.connected ? GREEN : BLUE);
+            Serial.printf(" - STATE_RUNNING %s\n", (vhWifi.connected ? 'GREEN' : 'BLUE(tooth)'));
             break;
         default : // STATE_BOOT
             setLed(CYAN);

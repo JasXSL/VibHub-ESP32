@@ -68,8 +68,10 @@ namespace Configuration{
     // Button config
     const bool BUTTON_UP = HIGH;                            // Value when the button is not pressed
     const bool BUTTON_DOWN = LOW;                           // Value when the button IS pressed
-    const int BUTTON_HOLD_TIME = 3000;                      // Time before it enters config mode
-    const int BUTTON_DEBOUNCE = 100;                        // Debounce time
+    const int BUTTON_HOLD_TIME = 4000;                      // Time before it enters config mode
+    const int BUTTON_BT_MIN_TIME = 2000;                    // Enter bluetooth config mode if between this and max time
+    const int BUTTON_BT_MAX_TIME = 4000;
+    const uint8_t BUTTON_DEBOUNCE = 100;                        // Debounce time
 
 
     // Global randomizer function

@@ -18,9 +18,10 @@ class Motor{
         void setPWM( uint8_t duty, bool fast_decay = false, bool forward = false );	// Sets the PWM
 		void stopProgram();														// Sets the program as completed
 		TweenProgram program;
-		
+		bool running();															// Returns true if the duty is > 0
+
     protected:
-        float _duty;															// Duty cycle (0-255)
+        uint8_t _duty;															// Duty cycle (0-255)
 		Pwm pwm_in1;															// Pwm forward object
 		Pwm pwm_in2;															// Pwm back object
 

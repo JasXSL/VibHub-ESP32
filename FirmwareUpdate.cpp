@@ -9,7 +9,7 @@
 #include <HTTPClient.h>
 #include "MD5Builder.h"
 #include "Update.h"
-
+#include "UserSettings.h"
 
 
 const char* base_url = "https://github.com/JasXSL/VibHub-ESP32/releases/download/";
@@ -75,7 +75,9 @@ const char*  aws_ca = \
 ;
 
 
-FWUpdate::FWUpdate() {
+FWUpdate::FWUpdate() :
+    running(false)
+{
     
 }
 
@@ -86,6 +88,8 @@ FWUpdate::~FWUpdate() {
 
 void FWUpdate::start(const char* file, const char* md5) {
     
+    running = true;
+
     char* url;
     url = (char*)calloc(strlen(base_url)+strlen(file)+1, sizeof(char));
     strcpy(url, base_url);
@@ -183,6 +187,7 @@ void FWUpdate::start(const char* file, const char* md5) {
         ret = -1;
     }
     
+    running = false;
     
     Serial.println("OTA: End");
 }

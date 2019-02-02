@@ -6,6 +6,7 @@
 #include "VhWifi.h"
 #include "StatusLED.h"
 #include <Arduino.h>
+#include <WiFi.h>
 #include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson
 #include <qrcode.h>
 #include "Configuration.h"
@@ -36,13 +37,23 @@ void VhWifi::connect( bool force, bool reset ){
     char port[6];
     itoa(userSettings.port, port, 10);
     WiFiManagerParameter serverPort("port", "Server Port", port, 6);
+
+    char enableBluetoothVal[2];
+    itoa(userSettings.enable_bluetooth, enableBluetoothVal, 10);
+    WiFiManagerParameter enableBluetooth("enable_bluetooth", "Bluetooth", enableBluetoothVal, 6);
+
+    char sleepTimerVal[2];
+    itoa(userSettings.sleep_after_min, sleepTimerVal, 10);
+    WiFiManagerParameter sleepTimer("sleep_after_min", "Turn off after minutes of inactivity", sleepTimerVal, 6);
     
     //wifiManager.addParameter(&devId);
     wifiManager.addParameter(&serverHost);
     wifiManager.addParameter(&serverPort);
+    wifiManager.addParameter(&sleepTimer);
+    wifiManager.addParameter(&enableBluetooth);
 
     //set config save notify callback
-    wifiManager.setSaveConfigCallback(std::bind(&VhWifi::saveConfigCallback, this));
+    wifiManager.setSaveParamsCallback(std::bind(&VhWifi::saveConfigCallback, this));
     
     //set callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
     wifiManager.setAPCallback(std::bind(&VhWifi::configModeCallback, this, _1));
@@ -69,35 +80,32 @@ void VhWifi::connect( bool force, bool reset ){
     }
 
     // Try to connect to AP, if that doesn't work, enter config mode
-    else if( !wifiManager.autoConnect(ssid.c_str()) ){
+    else{
+        
+        WiFi.begin();
+        int i = 0;
+        while (WiFi.status() != WL_CONNECTED && i < 30) { // Wait 3 sec for the Wi-Fi to connect
+            ++i;
+            delay(100);
+        }
 
-        // Config mode failed to enter
-        Serial.println("VhWifi: Failed to connect and hit timeout");
-        handleFatalError();
+        connected = WiFi.status() == WL_CONNECTED;
+
+        //if( !wifiManager.autoConnect(ssid.c_str()) ){
+        if( !userSettings.enable_bluetooth ){
+            if( !wifiManager.startConfigPortal(ssid.c_str()) ){
+                // Config mode failed to enter
+                Serial.println("VhWifi: Failed to connect and hit timeout");
+                handleFatalError();
+            }
+        }
+        else{
+            Serial.println("VhWifi: Failed to connect, but bluetooth is enabled.");
+            return;
+        }
 
     }
-    
-    // Wifimanager closed, but we need to save configuration
-    if( shouldSaveConfig ){
-        
-        Serial.println("VhWifi: Configuration change detected, saving and rebootski");
-        
-        // Read updated parameters
-        strcpy(userSettings.server, serverHost.getValue());
-        char p[5];
-        strcpy(p, serverPort.getValue());
-        userSettings.port = atoi(p);
-        
-        userSettings.save();
 
-        ESP.restart();
-        delay(1000);
-    }
-    else
-        Serial.println("VhWifi: No device ID change detected");
-    
-    
-    
     Serial.print("VhWifi: local ip: ");
     Serial.println(WiFi.localIP());
     
@@ -119,11 +127,36 @@ void VhWifi::clearSettings(){
         _wifiManager->resetSettings();
     }
 }
+
+String VhWifi::getParam(String name){
+    //read parameter from server, for customhmtl input
+    String value;
+    if(_wifiManager->server->hasArg(name)){
+        value = _wifiManager->server->arg(name);
+    }
+    return value;
+}
+
 //callback notifying us of the need to save config
 void VhWifi::saveConfigCallback(){
 
-    Serial.println("VhWifi: Should save config");
-    shouldSaveConfig = true;
+    Serial.println("VhWifi: Configuration change detected, saving and rebootski");
+    uint8_t was_enabled = userSettings.enable_bluetooth;
+
+    // Read updated parameters
+    strcpy(userSettings.server, getParam("server").c_str());
+    char p[5];
+    strcpy(p, getParam("port").c_str());
+    userSettings.port = atoi(p);
+    userSettings.enable_bluetooth = atoi(getParam("enable_bluetooth").c_str());
+    userSettings.sleep_after_min = atoi(getParam("sleep_after_min").c_str());
+    userSettings.save();
+
+    // Force a reboot if bluetooth was just turned on
+    if( userSettings.enable_bluetooth && !was_enabled ){
+        ESP.restart();
+        delay(1000);
+    }
 
 }
 

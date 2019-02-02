@@ -13,6 +13,7 @@ class FWUpdate {
         FWUpdate(void);
         ~FWUpdate();
         
+        bool running;
         void start(const char* file, const char* md5);
         
         
