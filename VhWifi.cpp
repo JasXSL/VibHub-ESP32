@@ -141,7 +141,8 @@ String VhWifi::getParam(String name){
 void VhWifi::saveConfigCallback(){
 
     Serial.println("VhWifi: Configuration change detected, saving and rebootski");
-        
+    uint8_t was_enabled = userSettings.enable_bluetooth;
+
     // Read updated parameters
     strcpy(userSettings.server, getParam("server").c_str());
     char p[5];
@@ -151,8 +152,11 @@ void VhWifi::saveConfigCallback(){
     userSettings.sleep_after_min = atoi(getParam("sleep_after_min").c_str());
     userSettings.save();
 
-    ESP.restart();
-    delay(1000);
+    // Force a reboot if bluetooth was just turned on
+    if( userSettings.enable_bluetooth && !was_enabled ){
+        ESP.restart();
+        delay(1000);
+    }
 
 }
 
