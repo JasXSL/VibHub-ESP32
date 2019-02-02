@@ -53,7 +53,7 @@ void VhWifi::connect( bool force, bool reset ){
     wifiManager.addParameter(&enableBluetooth);
 
     //set config save notify callback
-    wifiManager.setSaveConfigCallback(std::bind(&VhWifi::saveConfigCallback, this));
+    wifiManager.setSaveParamsCallback(std::bind(&VhWifi::saveConfigCallback, this));
     
     //set callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
     wifiManager.setAPCallback(std::bind(&VhWifi::configModeCallback, this, _1));
@@ -105,29 +105,7 @@ void VhWifi::connect( bool force, bool reset ){
         }
 
     }
-    
-    // Wifimanager closed, but we need to save configuration
-    if( shouldSaveConfig ){
-        
-        Serial.println("VhWifi: Configuration change detected, saving and rebootski");
-        
-        // Read updated parameters
-        strcpy(userSettings.server, serverHost.getValue());
-        char p[5];
-        strcpy(p, serverPort.getValue());
-        userSettings.port = atoi(p);
-        userSettings.enable_bluetooth = atoi(enableBluetooth.getValue());
-        userSettings.sleep_after_min = atoi(sleepTimer.getValue());
-        userSettings.save();
 
-        ESP.restart();
-        delay(1000);
-    }
-    else
-        Serial.println("VhWifi: No device ID change detected");
-    
-    
-    
     Serial.print("VhWifi: local ip: ");
     Serial.println(WiFi.localIP());
     
@@ -149,11 +127,32 @@ void VhWifi::clearSettings(){
         _wifiManager->resetSettings();
     }
 }
+
+String VhWifi::getParam(String name){
+    //read parameter from server, for customhmtl input
+    String value;
+    if(_wifiManager->server->hasArg(name)){
+        value = _wifiManager->server->arg(name);
+    }
+    return value;
+}
+
 //callback notifying us of the need to save config
 void VhWifi::saveConfigCallback(){
 
-    Serial.println("VhWifi: Should save config");
-    shouldSaveConfig = true;
+    Serial.println("VhWifi: Configuration change detected, saving and rebootski");
+        
+    // Read updated parameters
+    strcpy(userSettings.server, getParam("server").c_str());
+    char p[5];
+    strcpy(p, getParam("port").c_str());
+    userSettings.port = atoi(p);
+    userSettings.enable_bluetooth = atoi(getParam("enable_bluetooth").c_str());
+    userSettings.sleep_after_min = atoi(getParam("sleep_after_min").c_str());
+    userSettings.save();
+
+    ESP.restart();
+    delay(1000);
 
 }
 

@@ -368,8 +368,7 @@ const char JS_SHARED[] PROGMEM = "\n"
 class VhWifi{
 	public:
 		VhWifi(void) : 
-			connected(false),
-			shouldSaveConfig(false)
+			connected(false)
 		{}
 		void connect( bool force=false, bool resetSetting=false );
 		void clearSettings();
@@ -379,12 +378,11 @@ class VhWifi{
 
 	private:
         WiFiManager* _wifiManager;
-		bool shouldSaveConfig;			// Checks if config should be saved, default false
 		void handleFatalError();		// If something happened that can't be recovered from
 		// Any non-constant data needed to be loaded should go in here
 		String getCustomJSPre();		// Non constant data that should go above the constant data
 		String getCustomJSPost();		// == || == below the constant data
-		
+		String getParam(String name);	// gets a custom param
 
 };
 
