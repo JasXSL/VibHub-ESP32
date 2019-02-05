@@ -10,7 +10,7 @@
 UserSettings::UserSettings(void) :
     //server(Configuration::DEFAULT_HOST),
     port(Configuration::DEFAULT_PORT),
-    enable_bluetooth(false),
+    enable_bluetooth(true),
     sleep_after_min(60),
     last_action(0)
 {

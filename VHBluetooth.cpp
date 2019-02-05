@@ -90,8 +90,6 @@ void bleCharacteristicCallback::onRead(BLECharacteristic* pCharacteristic) {
 	Serial.printf("BLE received: %s, %i\n", msg.c_str(), msg.length());
 }
 
-
-
 void VHBluetooth::run(void *data) {
 			
 	Serial.println("Starting BLE work!");
@@ -150,8 +148,24 @@ void VHBluetooth::run(void *data) {
 
 
 	Serial.println("Advertising started!");
+
+	if( reset ){
+		int dev_num = esp_ble_get_bond_device_num(); 
+        Serial.printf("Found %i bonded BT devices\n", dev_num);
+           esp_ble_bond_dev_t *dev_list = (esp_ble_bond_dev_t *)malloc(sizeof(esp_ble_bond_dev_t) * dev_num); 
+        esp_ble_get_bond_device_list(&dev_num, dev_list); 
+        
+        for( int i = 0; i < dev_num; i++ ){ 
+            Serial.printf("Removing bonded bluetooth device %s\n", dev_list[i].bd_addr);
+            esp_ble_remove_bond_device(dev_list[i].bd_addr); 
+        } 
+        free(dev_list);
+	}
+
+
 	delay(portMAX_DELAY);
 
+	
 	
 }
 

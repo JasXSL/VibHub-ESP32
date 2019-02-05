@@ -38,8 +38,15 @@ void setup() {
     // Reset config and wifi if config button is held on boot
 	bool reset = false;
     if( configButton.isPressed() ){
+
         Serial.println("Resetting everything");
+        VHBluetooth* pMainBleServer = new VHBluetooth();
+        pMainBleServer->setStackSize(20000);
+        pMainBleServer->reset = true;
+        pMainBleServer->start();
+        
         reset = true;
+
     }
     
 

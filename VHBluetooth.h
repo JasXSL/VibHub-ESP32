@@ -50,7 +50,7 @@ class bleCharacteristicCallback: public BLECharacteristicCallbacks{
 class VHBluetooth: public Task{
 
 	public:
-		
+		bool reset;
 
 	private:
 		void run(void *data);
