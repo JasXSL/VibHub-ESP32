@@ -52,7 +52,7 @@ void setup() {
 
     userSettings.load(reset);
     Serial.println("Connecting to wifi");
-    vhWifi.connect(reset, reset);
+    vhWifi.connect(reset || !userSettings.initialized, reset);
     Serial.println("Connected");
     
 	

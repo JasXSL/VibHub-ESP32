@@ -12,7 +12,8 @@ UserSettings::UserSettings(void) :
     port(Configuration::DEFAULT_PORT),
     enable_bluetooth(true),
     sleep_after_min(60),
-    last_action(0)
+    last_action(0),
+    initialized(false)
 {
     strcpy(server, Configuration::DEFAULT_HOST);
 }
@@ -66,6 +67,7 @@ void UserSettings::load( bool reset ){
                     port = atoi(p);
                     strcpy(deviceid, json["deviceid"]);
                     enable_bluetooth = json["enable_bluetooth"];
+                    initialized = json["initialized"];
                     sleep_after_min = json["sleep_after_min"];
                     
                 }
@@ -138,6 +140,7 @@ void UserSettings::save(){
 	json["deviceid"] = deviceid;
 	json["enable_bluetooth"] = enable_bluetooth;
 	json["sleep_after_min"] = sleep_after_min;
+    json["initialized"] = initialized;
 
 	File configFile = SPIFFS.open(Configuration::SETTINGS_FILE, "w");
 	if( !configFile )
