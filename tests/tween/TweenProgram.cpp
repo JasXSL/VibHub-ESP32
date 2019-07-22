@@ -10,7 +10,7 @@ TweenProgram::TweenProgram( int re ){
 	reset(re);
 }
 		
-void TweenProgram::addStageFromJson(JsonObject &st){
+void TweenProgram::addStageFromJson(JsonObject st){
 
 	stages.push_back(
 		std::unique_ptr<TweenProgramStage>(new TweenProgramStage(st))

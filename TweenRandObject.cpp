@@ -11,7 +11,7 @@ void TweenRandObject::load(JsonVariant data){
 	
 	else if(data.is<JsonObject>()){
 
-		JsonObject &d = data.as<JsonObject&>();
+		JsonObject d = data.as<JsonObject>();
 		if(d.containsKey("min"))
 			min = d["min"];
 		if(d.containsKey("max"))

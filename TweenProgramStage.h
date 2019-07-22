@@ -27,7 +27,7 @@ class TweenProgramStage{
 		EaseType easeType;
 		
 		bool yoyo = false;
-		TweenProgramStage(JsonObject &s);		// Constructor
+		TweenProgramStage(JsonObject s);		// Constructor
 		void reset();							// Resets at the start of a program
 		long getDuration();						// Gets the total duration of this stage
 		float inValue;							// Set when the program starts with the out value of the previous stage

@@ -30,7 +30,7 @@ void Motor::loadProgram( JsonArray &stages, int repeats = 0 ){
     program.completed = true;
 	program.reset(repeats);
 	for( auto stage : stages )
-		program.addStageFromJson(stage.as<JsonObject>());
+		program.addStageFromJson(stage.to<JsonObject>());
 	
     Serial.println("Calling program start");
 	program.start();

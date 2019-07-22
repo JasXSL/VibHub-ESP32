@@ -10,7 +10,6 @@ using namespace std::placeholders;
 // Offload the constant CSS and JS to be injected into each page into program memory
 // CSS Style shared on each page
 
-// Todo: Improve CSS
 const char CSS_SHARED[] PROGMEM = "<style>"
 	"body{ "
 		"margin:0;"

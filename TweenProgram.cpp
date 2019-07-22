@@ -11,8 +11,7 @@ TweenProgram::TweenProgram( int re ){
 	reset(re);
 }
 		
-void TweenProgram::addStageFromJson(JsonObject &st){
-
+void TweenProgram::addStageFromJson(JsonObject st){
 	stages.push_back(
 		std::unique_ptr<TweenProgramStage>(new TweenProgramStage(st))
 	);
@@ -45,7 +44,7 @@ void TweenProgram::generateStages(){
 	}
 	_totalTime = duration;
 	_started = millis();
-	Serial.printf("Program stages generated, free heap: %i \n", ESP.getFreeHeap());
+	Serial.printf("%i Program stages generated, free heap: %i \n", stages.size(), ESP.getFreeHeap());
 	//Serial.printf("Program total duration %i, started %i \n", _totalTime, _started);
 
 }
@@ -64,9 +63,10 @@ bool TweenProgram::loop(){
 	bool pre = completed;
 	if( !completed ){
 
-		Serial.println("Program is NOT completed");
 		long delta = millis()-_started;
 		// Program has ended
+		//Serial.printf("Tick %i %i\n", delta, _totalTime);
+
 		if( delta >= _totalTime ){
 
 			value = stages.back().get()->outValue();	// makes sure the new inValue is proper
@@ -81,9 +81,10 @@ bool TweenProgram::loop(){
 					--_repeats;
 
 			}
-			else
+			else{
+				//Serial.println("DONE");
 				completed = true;
-
+			}
 		}
 
 		

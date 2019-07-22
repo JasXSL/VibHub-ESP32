@@ -15,7 +15,7 @@ class TweenProgram{
 
 		TweenProgram();
 		TweenProgram( int re );
-		void addStageFromJson(JsonObject &st);
+		void addStageFromJson(JsonObject st);
 		void start();								// Resets loops, generates randobjects, and starts the tween
 		void generateStages();						// Unsed on program start or loop to reload the stages with randobjects etc
 		void reset( int rep );						// Resets the stages and sets repeats, lets you keep the program without destroying it

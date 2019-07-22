@@ -47,29 +47,31 @@ void UserSettings::load( bool reset ){
             File configFile = SPIFFS.open(Configuration::SETTINGS_FILE, "r");
             if( configFile ){
 
-                Serial.println("opened config file");
-                size_t size = configFile.size();
-                // Allocate a buffer to store contents of the file.
-                std::unique_ptr<char[]> buf(new char[size]);
+                Serial.println("opened config file:");
+                String content = "";
+                while(configFile.available())
+                    content += char(configFile.read());
 
-                configFile.readBytes(buf.get(), size);
-                DynamicJsonBuffer jsonBuffer;
-                JsonObject& json = jsonBuffer.parseObject(buf.get());
-                json.printTo(Serial);
+                Serial.println(content);
+                DynamicJsonDocument jsonBuffer(4096);
+                DeserializationError error = deserializeJson(jsonBuffer, content.c_str());
+                
 
-                if( json.success() ){
+                if( !error ){
+                    Serial.println("Parsed json:");
+                    serializeJson(jsonBuffer, Serial);
+                    Serial.println("");
 
-                    Serial.println("\nparsed json");
+                    strcpy(server, jsonBuffer["server"]);
 
-                    strcpy(server, json["server"]);
-                    char p[5];
-                    strcpy(p, json["port"]);
-                    port = atoi(p);
-                    strcpy(deviceid, json["deviceid"]);
-                    enable_bluetooth = json["enable_bluetooth"];
-                    initialized = json["initialized"];
-                    sleep_after_min = json["sleep_after_min"];
-                    
+                    port = jsonBuffer["port"];
+                    strcpy(deviceid, jsonBuffer["deviceid"]);
+
+
+                    enable_bluetooth = jsonBuffer["enable_bluetooth"];
+                    initialized = jsonBuffer["initialized"];
+                    sleep_after_min = jsonBuffer["sleep_after_min"];
+
                 }
                 else
                     Serial.println("failed to load json config");
@@ -133,8 +135,8 @@ void UserSettings::gen_random( char *s, const int len ){
 void UserSettings::save(){
 
     Serial.println("UserSettings::save");
-	DynamicJsonBuffer jsonBuffer;
-	JsonObject& json = jsonBuffer.createObject();
+	DynamicJsonDocument jsonBuffer(1024);
+	JsonObject json = jsonBuffer.to<JsonObject>();
 	json["server"] = server;
 	json["port"] = port;
 	json["deviceid"] = deviceid;
@@ -146,8 +148,9 @@ void UserSettings::save(){
 	if( !configFile )
 		Serial.println("failed to open config file for writing");
 	
-	json.printTo(Serial);
-	json.printTo(configFile);
+    Serial.println("Saving config: ");
+	serializeJson(json, Serial);
+	serializeJson(json, configFile);
 	configFile.close();
     
 }

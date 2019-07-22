@@ -5,7 +5,7 @@ http://www.ti.com/lit/ds/symlink/drv8833.pdf
 
 #include "Arduino.h"
 #include "Motor.h"
-#include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson
+#include <ArduinoJson.h> 
 
 #define DEBUG
 
@@ -20,17 +20,19 @@ Motor::Motor( uint8_t pin_in1, uint8_t pin_in2 ) :
 	setPWM(0);
 }
 
-void Motor::loadProgram( JsonArray &stages, int repeats = 0 ){
+void Motor::loadProgram( JsonArray stages, int repeats = 0 ){
 
 	#ifdef DEBUG
 		Serial.println();
-		Serial.printf("Loading new program with #%i stages.\n", stages.size());
+		Serial.printf("Loading new program with #%i stages on motor.\n", stages.size());
 	#endif
 	
     program.completed = true;
 	program.reset(repeats);
+
+
 	for( auto stage : stages )
-		program.addStageFromJson(stage.as<JsonObject>());
+		program.addStageFromJson(stage);
 	
     Serial.println("Calling program start");
 	program.start();

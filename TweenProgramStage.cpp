@@ -4,7 +4,7 @@
 using namespace TweenEasing;
 
 
-TweenProgramStage::TweenProgramStage(JsonObject &s){
+TweenProgramStage::TweenProgramStage(JsonObject s){
 
 	in = TweenRandObject();
 	du = TweenRandObject();
@@ -24,8 +24,10 @@ TweenProgramStage::TweenProgramStage(JsonObject &s){
 		strcpy(easing, s["e"]);
 	if( s.containsKey("r") )
 		re.load(s["r"]);
-	if( s.containsKey("y") )
-		yoyo = s.get<int>("y") ? true : false;
+	if( s.containsKey("y") ){
+		byte y = s["y"];
+		yoyo = y ? true : false;
+	}
 
 	// Figure out the easing
 	char *token = strtok(easing, ".");

@@ -13,7 +13,7 @@ class Motor{
 
 	public:
 		Motor( uint8_t pin_in1, uint8_t pin_in2 );								// Creates the motor
-		void loadProgram( JsonArray &stages, int repeats );						// Loads a program onto this
+		void loadProgram( JsonArray stages, int repeats );						// Loads a program onto this
 		void update();															// Program loop
         void setPWM( uint8_t duty, bool fast_decay = false, bool forward = false );	// Sets the PWM
 		void stopProgram();														// Sets the program as completed

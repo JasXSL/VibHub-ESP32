@@ -89,15 +89,18 @@ void VhWifi::connect( bool force, bool reset ){
 
         connected = WiFi.status() == WL_CONNECTED;
 
+        Serial.printf("VhWifi: Connected %i\n", connected);
+
         //if( !wifiManager.autoConnect(ssid.c_str()) ){
-        if( !userSettings.enable_bluetooth ){
+        
+        if( !userSettings.enable_bluetooth && !connected ){
             if( !wifiManager.startConfigPortal(ssid.c_str()) ){
                 // Config mode failed to enter
                 Serial.println("VhWifi: Failed to connect and hit timeout");
                 handleFatalError();
             }
         }
-        else{
+        else if( !connected ){
             Serial.println("VhWifi: Failed to connect, but bluetooth is enabled.");
             return;
         }

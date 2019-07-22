@@ -1,10 +1,19 @@
 // Libraries
+
+    // External libraries needed:
+    // https://github.com/tzapu/WiFiManager/tree/development - DevBranch until ESP32 support is added by default
+    // https://arduinojson.org/ - Installable via arduino. V5 for now
+    // Task.h ??? Where'd you get this?
+    // Ticker-esp32 ??? Don't know where you got this
+    // https://github.com/gilmaimon/ArduinoWebsockets - Installable via arduino.
+    // 
+
     #include <Arduino.h>
     
 	#include "VhWifi.h"
 
-    #include <WiFi.h>
-    #include <HTTPClient.h>
+    #include <WiFi.h>               // Built in
+    #include <HTTPClient.h>         // ??? Builtin ??
 
 	#include "Configuration.h"
 	#include "UserSettings.h"
@@ -52,6 +61,7 @@ void setup() {
 
     userSettings.load(reset);
     Serial.println("Connecting to wifi");
+    Serial.printf("Reset: %i\n", reset || !userSettings.initialized);
     vhWifi.connect(reset || !userSettings.initialized, reset);
     Serial.println("Connected");
     
