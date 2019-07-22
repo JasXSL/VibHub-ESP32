@@ -8,7 +8,6 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <ArduinoJson.h> // https://github.com/bblanchon/ArduinoJson
-#include <qrcode.h>
 #include "Configuration.h"
 #include "UserSettings.h"
 #include <stdint.h> 
@@ -25,7 +24,6 @@ void VhWifi::connect( bool force, bool reset ){
     // Custom CSS shared among the whole site
     String head = FPSTR(CSS_SHARED);
     head += "<script>window.onload = () => {";
-        head += getCustomJSPre();
         head += FPSTR(JS_SHARED);
         head += getCustomJSPost();
     head += "};</script>";
@@ -181,27 +179,6 @@ void VhWifi::configModeCallback( WiFiManager *myWiFiManager ){
 
 }
 
-
-String VhWifi::getCustomJSPre(){
-
-    String out = "const QR_SIZE = 25;";
-
-    out+= "const QR_DATA ='";
-    QRCode qrcode;
-    uint8_t qrcodeData[qrcode_getBufferSize(2)];
-    String text = "vibhub:";
-    text+= userSettings.deviceid;
-    qrcode_initText(&qrcode, qrcodeData, 2, ECC_MEDIUM, text.c_str());
-
-    // For Kadah: Changed from uint8 to uint8_t. Wouldn't compile otherwise. Is this an esp8266 thing?
-    for( uint8_t y = 0; y < qrcode.size; y++ ){
-		for( uint8_t x = 0; x < qrcode.size; x++ )
-            out+= qrcode_getModule(&qrcode, x, y) ? "1" : "0";
-	}
-    out += "';";
-    return out;
-    
-}
 
 String VhWifi::getCustomJSPost(){
 
