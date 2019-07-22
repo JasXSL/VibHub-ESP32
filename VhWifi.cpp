@@ -110,6 +110,13 @@ void VhWifi::connect( bool force, bool reset ){
     Serial.println(WiFi.localIP());
     
     Serial.println("VhWifi: connected");
+
+    if( force ){
+        ESP.restart();
+        delay(1000);
+    }
+
+
 }
 
 // Unrecoverable connection error
@@ -150,6 +157,7 @@ void VhWifi::saveConfigCallback(){
     userSettings.port = atoi(p);
     userSettings.enable_bluetooth = atoi(getParam("enable_bluetooth").c_str());
     userSettings.sleep_after_min = atoi(getParam("sleep_after_min").c_str());
+    userSettings.initialized = true;
     userSettings.save();
 
     // Force a reboot if bluetooth was just turned on

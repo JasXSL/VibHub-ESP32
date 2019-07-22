@@ -19,6 +19,7 @@ class UserSettings{
         char deviceid[64];
         bool enable_bluetooth;
         int sleep_after_min;
+        bool initialized;
         
         void loop();
         void resetSleepTimer();
