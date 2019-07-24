@@ -260,9 +260,9 @@ const char JS_SHARED[] PROGMEM = "\n"
 			"sub.innerText=\"Save\"\n"
 		"}"
 		// Replace the re-scan button with a back button, since re-scan will wipe any changes made to settings
-		"let c = QS(\"div.c\");"
-		"if(c)"
-			"c.remove();\n"
+		"let cDiv = QS(\"div.c\");"
+		"if(cDiv)"
+			"cDiv.remove();\n"
 		"let nodes = QSA('body > div > br');\n"
 		"if(nodes.length)"
 			"nodes[nodes.length-1].remove();\n"
@@ -270,7 +270,7 @@ const char JS_SHARED[] PROGMEM = "\n"
 
 		// Event bindings
 		"QSA('div.wifiNode').forEach(el => {\n"
-			"el.onclick = function(){ c(this.querySelector('a')); window.location.href = '#p'; };\n"
+			"el.onclick = function(){ c(this.querySelector('a')); window.location.href = '#p'; }\n"
 		"});\n"
 
 		
