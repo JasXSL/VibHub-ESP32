@@ -13,7 +13,7 @@
 #include "Configuration.h"
 
 SocketIoClient::SocketIoClient(void){
-    _webSocket.setReconnectInterval(Configuration::WEBSOCKET_RECONNECT_TIME);
+    
 }
 
 const String getEventName(const String msg) {
@@ -61,14 +61,17 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 	}
 }
 
-void SocketIoClient::beginSSL(const char* host, const int port, const char* url, const char* fingerprint) {
-	_webSocket.beginSSL(host, port, url, fingerprint);
+void SocketIoClient::beginSSL(const char* host, const int port, const char* url, const char* CA_cert) {
+	Serial.printf("Starting SSL socket, %s:%i, %s \n", host, port, url);
+	_webSocket.beginSslWithCA(host, port, url, CA_cert);
+    _webSocket.setReconnectInterval(Configuration::WEBSOCKET_RECONNECT_TIME);
     initialize();
 }
 
 void SocketIoClient::begin(const char* host, const int port, const char* url) {
 	Serial.printf("Starting socket, %s:%i, %s \n", host, port, url);
 	_webSocket.begin(host, port, url);
+    _webSocket.setReconnectInterval(Configuration::WEBSOCKET_RECONNECT_TIME);
     initialize();
 }
 

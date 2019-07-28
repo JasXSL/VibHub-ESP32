@@ -21,8 +21,6 @@
 #else
 	#define SIO_PORT_DEFAULT 80
 #endif
-#define DEFAULT_URL "/socket.io/?transport=websocket"
-#define DEFAULT_FINGERPRINT ""
 
 
 class SocketIoClient {
@@ -37,8 +35,8 @@ class SocketIoClient {
         void initialize();
     public:
         SocketIoClient(void);
-        void beginSSL(const char* host, const int port = SIO_PORT_DEFAULT, const char* url = DEFAULT_URL, const char* fingerprint = DEFAULT_FINGERPRINT);
-        void begin(const char* host, const int port = SIO_PORT_DEFAULT, const char* url = DEFAULT_URL);
+        void beginSSL(const char* host, const int port = SIO_PORT_DEFAULT, const char* url = NULL, const char* CA_cert = NULL);
+        void begin(const char* host, const int port = SIO_PORT_DEFAULT, const char* url = NULL);
         void loop();
         void on(const char* event, std::function<void (const char * payload, size_t length)>);
         void emit(const char* event, const char * payload = NULL);

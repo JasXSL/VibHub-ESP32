@@ -1,31 +1,28 @@
 // Libraries
 
-    // External libraries needed:
-    // https://github.com/tzapu/WiFiManager/tree/development - DevBranch until ESP32 support is added by default
-    // https://arduinojson.org/ - Installable via arduino. V5 for now
-    // Task.h ??? Where'd you get this?
-    // Ticker-esp32 ??? Don't know where you got this
-    // https://github.com/gilmaimon/ArduinoWebsockets - Installable via arduino.
-    // 
+// External libraries needed:
+// https://github.com/tzapu/WiFiManager/tree/development - DevBranch until ESP32 support is added by default
+// https://arduinojson.org/ - Installable via arduino. V5 for now
+// Task.h ??? Where'd you get this?
+// Ticker-esp32 ??? Don't know where you got this
+// https://github.com/gilmaimon/ArduinoWebsockets - Installable via arduino.
+// 
 
-    #include <Arduino.h>
-    
-	#include "VhWifi.h"
+#include <Arduino.h>
 
-    #include <WiFi.h>               // Built in
-    #include <HTTPClient.h>         // ??? Builtin ??
+#include "VhWifi.h"
 
-	#include "Configuration.h"
-	#include "UserSettings.h"
-	#include "ConfigButton.h"
-    #include "ApiClient.h"
-    #include "StatusLED.h"
-    #include "Pwm.h"
-    #include "VHBluetooth.h"
+#include <WiFi.h>               // Built in
+#include <HTTPClient.h>         // ??? Builtin ??
 
-	/*
-    #include <ArduinoOTA.h>
-	*/
+#include "Configuration.h"
+#include "UserSettings.h"
+#include "ConfigButton.h"
+#include "ApiClient.h"
+#include "StatusLED.h"
+#include "Pwm.h"
+#include "VHBluetooth.h"
+
 
 // Program begins
 void setup() {
@@ -35,6 +32,9 @@ void setup() {
     //Serial.setDebugOutput(true);
     delay(1000);
     Serial.println("\nStarting...");
+
+    Serial.printf("Board Version: %s\n", Configuration::VH_HWVERSION);
+    Serial.printf("Firmware Version: %s\n", Configuration::VH_VERSION);
 
     // Set LED state
     statusLED.initialize();
