@@ -11,11 +11,11 @@
 
 namespace Configuration{
 
-    const char VH_VERSION[]         = "0.2.1";          // Software version
+    const char VH_VERSION[]         = "0.2.2";          // Software version
     const char VH_HWVERSION[]       = "ESP32_2.0a";     // Hardware type & version
     const char WIFI_SSID[]          = "VibHub";         // Network SSID
-    const char DEFAULT_HOST[]       = "192.168.0.191";      // Default socket host
-    const int  DEFAULT_PORT         = 80;               // Default socket port
+    const char DEFAULT_HOST[]       = "vibhub.io";      // Default socket host
+    const int  DEFAULT_PORT         = 443;               // Default socket port
     const char API_URL[]            = "/socket.io/?transport=websocket";
     const char SETTINGS_FILE[]      = "/config.json";   // Default SPIFFS config file
 

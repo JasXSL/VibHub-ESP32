@@ -80,12 +80,17 @@ void VhWifi::connect( bool force, bool reset ){
     // Try to connect to AP, if that doesn't work, enter config mode
     else{
         
+        Serial.println("VhWiFi: WIFI Begin");
         WiFi.begin();
         int i = 0;
-        while (WiFi.status() != WL_CONNECTED && i < 30) { // Wait 3 sec for the Wi-Fi to connect
+        while (WiFi.status() != WL_CONNECTED && i < 200) { // Wait 10 sec for the Wi-Fi to connect
             ++i;
             delay(100);
+            if( (i%10) == 0 ){
+                Serial.printf("%i...", i/10);
+            }
         }
+        Serial.println();
 
         connected = WiFi.status() == WL_CONNECTED;
 
@@ -94,6 +99,7 @@ void VhWifi::connect( bool force, bool reset ){
         //if( !wifiManager.autoConnect(ssid.c_str()) ){
         
         if( !userSettings.enable_bluetooth && !connected ){
+            Serial.println("VhWifi: Not connected and no bluetooth. Starting config portal");
             if( !wifiManager.startConfigPortal(ssid.c_str()) ){
                 // Config mode failed to enter
                 Serial.println("VhWifi: Failed to connect and hit timeout");
