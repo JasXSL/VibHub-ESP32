@@ -22,6 +22,11 @@ void TweenProgram::addStageFromJson(JsonObject st){
 // Start the tween
 void TweenProgram::start(){
 
+    // Validate program
+    if (stages.empty()) {
+        return;
+    }
+
 	// Reset stuff
 	completed = false;
 	_repeats = repeats;
