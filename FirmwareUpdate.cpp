@@ -7,8 +7,9 @@
 #include "FirmwareUpdate.h"
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include "MD5Builder.h"
-#include "Update.h"
+#include "ApiClient.h"
+#include <MD5Builder.h>
+#include <Update.h>
 #include "UserSettings.h"
 
 
@@ -123,6 +124,8 @@ void FWUpdate::start(const char* file, const char* md5) {
     
     if(httpCode > 0 && httpCode == HTTP_CODE_OK) {
         // TODO: Pre-download calls, if any;
+        apiClient.disconnect();
+        
         // get length of document (is -1 when Server sends no Content-Length header)
         len = http.getSize();
         total = len;
@@ -169,7 +172,7 @@ void FWUpdate::start(const char* file, const char* md5) {
     // TODO: Post-download calls, if any;
     }else {
         Serial.printf("OTA: [HTTP] GET... failed! httpCode: %i\n", httpCode);
-        ret -1;
+        ret = -1;
     }
 
     http.end();
