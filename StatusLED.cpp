@@ -135,7 +135,7 @@ void StatusLED::setState( int state ){
             break;
         case STATE_RUNNING :
             setLed(vhWifi.connected ? GREEN : BLUE);
-            Serial.printf(" - STATE_RUNNING %s\n", (vhWifi.connected ? 'GREEN' : 'BLUE(tooth)'));
+            Serial.printf(" - STATE_RUNNING %s\n", (vhWifi.connected ? "GREEN" : "BLUE(tooth)"));
             break;
         default : // STATE_BOOT
             setLed(CYAN);
