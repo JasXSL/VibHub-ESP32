@@ -2,10 +2,10 @@
 
 // External libraries needed:
 // https://github.com/tzapu/WiFiManager/tree/development - DevBranch until ESP32 support is added by default
-// https://arduinojson.org/ - Installable via arduino.
+// https://arduinojson.org/ - Installable via Arduino IDE.
 // Task.h ??? Where'd you get this?
 // Ticker-esp32 ??? Don't know where you got this
-// https://github.com/gilmaimon/ArduinoWebsockets - Installable via arduino.
+// https://github.com/Links2004/arduinoWebSockets - Installable in Arduino IDE as "WebSockets by Markus Sattler".
 // 
 
 #include <Arduino.h>
@@ -68,7 +68,10 @@ void setup() {
 	
     // Set socket loading state
     statusLED.setState(StatusLED::STATE_SOCKET_ERR);
-    
+
+    // Set system time
+    setClock();
+
     //Connect to server
     if( vhWifi.connected ){
         apiClient.connect();
@@ -143,3 +146,21 @@ void loop() {
     
 }
 
+void setClock() {
+  configTime(0, 0, "pool.ntp.org", "time.nist.gov");
+
+  Serial.print("Waiting for NTP time sync: ");
+  time_t nowSecs = time(nullptr);
+  while (nowSecs < 8 * 3600 * 2) {
+    delay(500);
+    Serial.print(".");
+    yield();
+    nowSecs = time(nullptr);
+  }
+
+  Serial.println();
+  struct tm timeinfo;
+  gmtime_r(&nowSecs, &timeinfo);
+  Serial.print("Current time: ");
+  Serial.println(asctime(&timeinfo));
+}
