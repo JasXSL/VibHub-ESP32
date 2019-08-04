@@ -1,19 +1,19 @@
-// Libraries
+/* Libraries
 
-// External libraries needed:
-// https://github.com/tzapu/WiFiManager/tree/development - DevBranch until ESP32 support is added by default
-// https://arduinojson.org/ - Installable via Arduino IDE.
-// Task.h ??? Where'd you get this?
-// Ticker-esp32 ??? Don't know where you got this
-// https://github.com/Links2004/arduinoWebSockets - Installable in Arduino IDE as "WebSockets by Markus Sattler".
-// 
+External libraries needed:
+https://github.com/tzapu/WiFiManager/tree/development - DevBranch until ESP32 support is added by default
+https://arduinojson.org/ - Installable via Arduino IDE.
+Ticker-esp32 ??? Don't know where you got this
+Kadah's fork of arduinoWebSockets: https://github.com/Kadah/arduinoWebSockets
+and socket.io-client: https://github.com/Kadah/socket.io-client
+*/ 
 
 #include <Arduino.h>
 
 #include "VhWifi.h"
 
-#include <WiFi.h>               // Built in
-#include <HTTPClient.h>         // ??? Builtin ??
+#include <WiFi.h>
+#include <HTTPClient.h> 
 
 #include "Configuration.h"
 #include "UserSettings.h"
