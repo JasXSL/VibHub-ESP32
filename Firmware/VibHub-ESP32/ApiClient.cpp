@@ -122,15 +122,16 @@ void ApiClient::event_vib( const char * payload, size_t length ){
     DynamicJsonDocument js(2048);
     JsonArray arr = js.to<JsonArray>();
 
-    if( !jsonBuffer.is<JsonArray>() ){
-
-        JsonObject obj = jsonBuffer.to<JsonObject>();
-        arr.add(obj);
-
+    if( jsonBuffer.is<JsonObject>() ){
+        arr.add(jsonBuffer);
     }
-    else{
-        for( byte i=0; i<jsonBuffer.size(); ++i )
-            arr.add(jsonBuffer[i]);
+    else if( jsonBuffer.is<JsonArray>() ){
+        for( byte i=0; i<jsonBuffer.size(); ++i ){
+            if( jsonBuffer[i].is<JsonObject>() )
+                arr.add(jsonBuffer[i]);
+        }
+    }else{
+        Serial.println("Error: Invalid Vib program received");
     }
 
     // Cycle through all programs
