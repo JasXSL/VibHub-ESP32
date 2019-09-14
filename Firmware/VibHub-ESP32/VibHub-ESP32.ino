@@ -75,18 +75,14 @@ void setup() {
     //Connect to server
     if( vhWifi.connected ){
         apiClient.connect();
-        // Test if it works
-        HTTPClient http;
-        Serial.printf("Wifi Status: %i\n", WiFi.status() == WL_CONNECTED);
-        http.begin("http://vibhub.io/api/"); //Specify the URL
-        int httpCode = http.GET();                                        //Make the request
-        Serial.printf("HTTP code %i\n", httpCode);
-        http.end(); //Free the resources
+        apiClient.loop();
+        yield();
     }
 
     // Init bluetooth
     if( userSettings.enable_bluetooth ){
 
+        esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT);
         VHBluetooth* pMainBleServer = new VHBluetooth();
         pMainBleServer->setStackSize(20000);
         pMainBleServer->start();
@@ -137,13 +133,11 @@ void setup() {
 // Main program lööp
 void loop() {
 
-
     apiClient.loop();
     configButton.loop();
     userSettings.loop();
     //ArduinoOTA.handle();
-	//delay(100);
-    
+
 }
 
 void setClock() {
