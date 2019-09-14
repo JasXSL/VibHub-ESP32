@@ -21,7 +21,6 @@ and socket.io-client: https://github.com/Kadah/socket.io-client
 #include "ApiClient.h"
 #include "StatusLED.h"
 #include "Pwm.h"
-#include "VHBluetooth.h"
 
 
 // Program begins
@@ -48,12 +47,7 @@ void setup() {
 	bool reset = false;
     if( configButton.isPressed() ){
 
-        Serial.println("Resetting everything");
-        VHBluetooth* pMainBleServer = new VHBluetooth();
-        pMainBleServer->setStackSize(20000);
-        pMainBleServer->reset = true;
-        pMainBleServer->start();
-        
+        Serial.println("Resetting everything");        
         reset = true;
 
     }
@@ -79,19 +73,7 @@ void setup() {
         yield();
     }
 
-    // Init bluetooth
-    if( userSettings.enable_bluetooth ){
 
-        esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT);
-        VHBluetooth* pMainBleServer = new VHBluetooth();
-        pMainBleServer->setStackSize(20000);
-        pMainBleServer->start();
-        // We are in bluetooth only mode
-        if( !vhWifi.connected ){
-            statusLED.setState(StatusLED::STATE_RUNNING);
-        }
-
-    }
 
     //TODO: dedicated programming mode
     /*

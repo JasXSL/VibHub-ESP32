@@ -10,7 +10,6 @@
 UserSettings::UserSettings(void) :
     //server(Configuration::DEFAULT_HOST),
     port(Configuration::DEFAULT_PORT),
-    enable_bluetooth(true),
     sleep_after_min(60),
     last_action(0),
     initialized(false)
@@ -68,7 +67,6 @@ void UserSettings::load( bool reset ){
                     strcpy(deviceid, jsonBuffer["deviceid"]);
 
 
-                    enable_bluetooth = jsonBuffer["enable_bluetooth"];
                     initialized = jsonBuffer["initialized"];
                     sleep_after_min = jsonBuffer["sleep_after_min"];
 
@@ -86,7 +84,6 @@ void UserSettings::load( bool reset ){
     Serial.printf("DeviceID: %s\n", deviceid);
     Serial.printf("Server: %s\n", server);
 	Serial.printf("Port: %i\n", port);
-	Serial.printf("Bluetooth: %i\n", enable_bluetooth);
 	Serial.printf("Sleep minutes: %i\n", sleep_after_min);
 
 	if( deviceid[0] == '\0' || port == 0 || port > 65535 || server[0] == '\0' ){
@@ -140,7 +137,6 @@ void UserSettings::save(){
 	json["server"] = server;
 	json["port"] = port;
 	json["deviceid"] = deviceid;
-	json["enable_bluetooth"] = enable_bluetooth;
 	json["sleep_after_min"] = sleep_after_min;
     json["initialized"] = initialized;
 

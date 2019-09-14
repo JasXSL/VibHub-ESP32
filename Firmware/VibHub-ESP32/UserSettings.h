@@ -17,7 +17,6 @@ class UserSettings{
         char server[64];
         unsigned int port;
         char deviceid[64];
-        bool enable_bluetooth;
         int sleep_after_min;
         bool initialized;
         

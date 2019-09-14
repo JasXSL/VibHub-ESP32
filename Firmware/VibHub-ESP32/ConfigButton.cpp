@@ -11,7 +11,6 @@
 #include "VhWifi.h"
 #include "UserSettings.h"
 #include "ApiClient.h"
-#include "VHBluetooth.h"
 
 unsigned long _heldTime;
 int _lastButtonState;
@@ -105,23 +104,12 @@ bool ConfigButton::loop( bool isReconfiguring ){
         }
 
     }
-    else if( userSettings.enable_bluetooth && buttonState == Configuration::BUTTON_DOWN && delta > Configuration::BUTTON_BT_MIN_TIME && delta < Configuration::BUTTON_BT_MIN_TIME+100 ){
-        statusLED.quickFlashBluetooth();
-    }
 
     // Released
     else if( buttonState == Configuration::BUTTON_UP && _lastButtonState == Configuration::BUTTON_DOWN ){
 
         _buttonHeld = false;
-        if( userSettings.enable_bluetooth && delta > Configuration::BUTTON_BT_MIN_TIME && delta < Configuration::BUTTON_BT_MAX_TIME ){
-
-            // Enable bluetooth pairing
-            pSecurity->setCapability(ESP_IO_CAP_NONE);
-            statusLED.setBluetoothPairable( true );
-            Serial.println("Enabling bluetooth bonding");
-
-        }
-        else if( delta > Configuration::BUTTON_DEBOUNCE ){
+        if( delta > Configuration::BUTTON_DEBOUNCE ){
 
             Serial.println("ConfigButton: Button Pressed");
             if( isReconfiguring ){

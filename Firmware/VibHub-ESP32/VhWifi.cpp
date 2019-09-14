@@ -36,10 +36,6 @@ void VhWifi::connect( bool force, bool reset ){
     itoa(userSettings.port, port, 10);
     WiFiManagerParameter serverPort("port", "Server Port", port, 6);
 
-    char enableBluetoothVal[2];
-    itoa(userSettings.enable_bluetooth, enableBluetoothVal, 10);
-    WiFiManagerParameter enableBluetooth("enable_bluetooth", "Bluetooth", enableBluetoothVal, 6);
-
     char sleepTimerVal[2];
     itoa(userSettings.sleep_after_min, sleepTimerVal, 10);
     WiFiManagerParameter sleepTimer("sleep_after_min", "Turn off after minutes of inactivity", sleepTimerVal, 6);
@@ -48,7 +44,6 @@ void VhWifi::connect( bool force, bool reset ){
     wifiManager.addParameter(&serverHost);
     wifiManager.addParameter(&serverPort);
     wifiManager.addParameter(&sleepTimer);
-    wifiManager.addParameter(&enableBluetooth);
 
     //set config save notify callback
     wifiManager.setSaveParamsCallback(std::bind(&VhWifi::saveConfigCallback, this));
@@ -98,17 +93,13 @@ void VhWifi::connect( bool force, bool reset ){
 
         //if( !wifiManager.autoConnect(ssid.c_str()) ){
         
-        if( !userSettings.enable_bluetooth && !connected ){
-            Serial.println("VhWifi: Not connected and no bluetooth. Starting config portal");
+        if( !connected ){
+            Serial.println("VhWifi: Not connected. Starting config portal");
             if( !wifiManager.startConfigPortal(ssid.c_str()) ){
                 // Config mode failed to enter
                 Serial.println("VhWifi: Failed to connect and hit timeout");
                 handleFatalError();
             }
-        }
-        else if( !connected ){
-            Serial.println("VhWifi: Failed to connect, but bluetooth is enabled.");
-            return;
         }
 
     }
@@ -155,23 +146,16 @@ String VhWifi::getParam(String name){
 void VhWifi::saveConfigCallback(){
 
     Serial.println("VhWifi: Configuration change detected, saving and rebootski");
-    uint8_t was_enabled = userSettings.enable_bluetooth;
 
     // Read updated parameters
     strcpy(userSettings.server, getParam("server").c_str());
     char p[5];
     strcpy(p, getParam("port").c_str());
     userSettings.port = atoi(p);
-    userSettings.enable_bluetooth = atoi(getParam("enable_bluetooth").c_str());
     userSettings.sleep_after_min = atoi(getParam("sleep_after_min").c_str());
     userSettings.initialized = true;
     userSettings.save();
 
-    // Force a reboot if bluetooth was just turned on
-    if( userSettings.enable_bluetooth && !was_enabled ){
-        ESP.restart();
-        delay(1000);
-    }
 
 }
 

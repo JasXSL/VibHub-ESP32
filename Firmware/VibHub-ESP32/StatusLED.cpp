@@ -28,8 +28,7 @@ const uint8_t StatusLED::STATE_RUNNING = 5;
 
 StatusLED::StatusLED() :
     programState(-1),
-    ledTickerHigh(false),
-    bluetoothPairable(false)
+    ledTickerHigh(false)
     //p_red(),
     //p_green(),
     //p_blue()
@@ -71,33 +70,6 @@ void StatusLED::flashingTick(int color){
 
 }
 
-void StatusLED::setBluetoothPairable( bool pairable ){
-
-    bluetoothPairable = pairable;
-    ledTicker.detach();
-
-    // Bluetooth pairing overrides, since the device can be used while pairing is active
-    if( pairable ){
-        setLed(BLUE);
-        ledTickerHigh = true;
-        ledTicker.attach_ms(500, StatusLED::flashingTick, BLUE);
-    }
-    else{
-        int state = programState;
-        programState = -1;
-        setState(state);
-    }
-
-}
-
-void StatusLED::quickFlashBluetooth(){
-    setLed(CYAN);
-    delay(150);
-    int state = programState;
-    programState = -1;
-    StatusLED::setState( state );
-}
-
 void StatusLED::setState( int state ){
 
     if( programState == state )
@@ -105,9 +77,6 @@ void StatusLED::setState( int state ){
 
     programState = state;
 
-    if( bluetoothPairable )
-        return;
-    
     Serial.printf("setState: %i\n", state);
     
     ledTicker.detach();

@@ -5,3 +5,5 @@ workspace.code-workspace
 *.s#[0-9]
 *.epf
 testing/*
+.vscode/arduino.json
+.vscode/c_cpp_properties.json

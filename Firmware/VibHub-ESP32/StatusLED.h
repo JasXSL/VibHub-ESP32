@@ -20,12 +20,9 @@ class StatusLED{
         static const uint8_t STATE_SOCKET_ERR;
         static const uint8_t STATE_RUNNING;
         
-        bool bluetoothPairable;     // overrides the state, shows that bluetooth can be paired
         bool ledTickerHigh;
         void setState( int state = STATE_BOOT );
         void setLed( int color );
-        void setBluetoothPairable( bool pairable );
-        void quickFlashBluetooth();
 
         void test();
         static void testTick( int color );
