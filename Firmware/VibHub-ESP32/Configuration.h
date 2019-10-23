@@ -46,7 +46,7 @@ namespace Configuration{
     
 
     // PWM
-    const int PWM_FREQ              = 16000; // PWM Frequency
+    const int PWM_FREQ              = 1000; // PWM Frequency
     const int PWM_RESOLUTION        = 8;     // PWM resolution
 
     // Button config
