@@ -31,9 +31,15 @@ class StatusLED{
         
     private:
         int programState;           // State the program is currently in
+
         Pwm p_red;
         Pwm p_green;
         Pwm p_blue;
+
+        Pwm p2_red;
+        Pwm p2_green;
+        Pwm p2_blue;
+        
         uint8_t testColor;
 
 };

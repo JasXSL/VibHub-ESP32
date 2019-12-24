@@ -42,21 +42,32 @@ void StatusLED::initialize(){
     p_red.initialize(Configuration::PIN_SLED_R);
     p_green.initialize(Configuration::PIN_SLED_G);
     p_blue.initialize(Configuration::PIN_SLED_B);
+
+    p2_red.initialize(Configuration::PIN_SLED2_R);
+    p2_green.initialize(Configuration::PIN_SLED2_G);
+    p2_blue.initialize(Configuration::PIN_SLED2_B);
+
     Serial.println("Initialized StatusLED");
     setLed(OFF);
 
 }
 
 void StatusLED::setLed( int color ){
-    
-    int red = color&RED ? Configuration::SLED_BRIGHTNESS : 0;
-    int green = color&GREEN ? Configuration::SLED_BRIGHTNESS : 0;
-    int blue = color&BLUE ? Configuration::SLED_BRIGHTNESS : 0;
-    //Serial.printf("R %i G %i B %i\n", red, green, blue);
-    //Serial.printf("Rc %i Gc %i\n", p_red._channel, p_green._channel);
-    p_red.setPWM(255-red);
-    p_green.setPWM(255-green);
-    p_blue.setPWM(255-blue);
+
+    uint32_t r = 255 - (color&RED ? Configuration::SLED_BRIGHTNESS : 0);
+    uint32_t g = 255 - (color&GREEN ? Configuration::SLED_BRIGHTNESS : 0);
+    uint32_t b = 255 - (color&BLUE ? Configuration::SLED_BRIGHTNESS : 0);
+
+    // Serial.printf("C %i : R %i G %i B %i\n", color, r, g, b);
+
+    p_red.setPWM(r);
+    p_green.setPWM(g);
+    p_blue.setPWM(b);
+
+    p2_red.setPWM(r);
+    p2_green.setPWM(g);
+    p2_blue.setPWM(b);
+
 }
 
 

@@ -12,7 +12,7 @@
 namespace Configuration{
 
     const char VH_VERSION[]         = "0.2.2";          // Software version
-    const char VH_HWVERSION[]       = "ESP32_2.0a";     // Hardware type & version
+    const char VH_HWVERSION[]       = "ESP32_2.1";      // Hardware type & version
     const char WIFI_SSID[]          = "VibHub";         // Network SSID
     const char DEFAULT_HOST[]       = "vibhub.io";      // Default socket host
     const int  DEFAULT_PORT         = 443;               // Default socket port
@@ -25,10 +25,13 @@ namespace Configuration{
     // Status LED
     const uint8_t SLED_BRIGHTNESS   = 50;   // Status LED brightness, 0-255
 
-    // ESP32 2.0a Board GPIO Assignments
+    // ESP32 2.0a/2.1 Board GPIO Assignments
     const uint8_t PIN_SLED_R        = 14;   // GPIO pin for RGB (inverse, a PWM of 255 turns off)
     const uint8_t PIN_SLED_G        = 12;
     const uint8_t PIN_SLED_B        = 27;
+    const uint8_t PIN_SLED2_R       = 32;   // 2.1 only
+    const uint8_t PIN_SLED2_G       = 33;   // 2.1 only
+    const uint8_t PIN_SLED2_B       = 25;   // 2.1 only
     const uint8_t PIN_CONFIG_BUTTON = 26;   // Configuration pin. Use a pull-up resistor
     const uint8_t PIN_NSLEEP        = 2;    // Disables motor drivers when low
     const uint8_t PIN_MOTOR_A_IN1   = 13;
@@ -43,10 +46,11 @@ namespace Configuration{
     const uint8_t PIN_MOTOR_FAULT2  = 34;   // Currently unused
     const uint8_t PIN_SDA           = 21;   // Currently unused
     const uint8_t PIN_SCL           = 22;   // Currently unused
+    const uint8_t PIN_POWEROFF      = 23;   // Signal high turns off main power
     
 
     // PWM
-    const int PWM_FREQ              = 16000; // PWM Frequency
+    const int PWM_FREQ              = 12000; // PWM Frequency
     const int PWM_RESOLUTION        = 8;     // PWM resolution
 
     // Button config
