@@ -47,7 +47,7 @@ void StatusLED::initialize(){
     p2_green.initialize(Configuration::PIN_SLED2_G);
     p2_blue.initialize(Configuration::PIN_SLED2_B);
 
-    Serial.println("Initialized StatusLED");
+    // Serial.println("Initialized StatusLED");
     setLed(OFF);
 
 }

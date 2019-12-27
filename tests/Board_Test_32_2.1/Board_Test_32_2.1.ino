@@ -4,8 +4,11 @@
 #include "StatusLED.h"
 #include "Pwm.h"
 #include "Motor.h"
+#include <WiFi.h>
+#include <SPIFFS.h>
 
 #define LEDTESTDELAY 150
+#define FORMAT_SPIFFS_IF_FAILED true
 
 // LED colors
 #define RED     0x1
@@ -27,7 +30,32 @@ void setup() {
     Serial.println("\nStarting...");
 
     Serial.printf("Board Version: %s\n", Configuration::VH_HWVERSION);
-    Serial.printf("Firmware Version: %s\n", Configuration::VH_VERSION);
+    Serial.printf("Firmware Version: %s\n\n", Configuration::VH_VERSION);
+    
+    uint64_t chipid = ESP.getEfuseMac();//The chip ID is essentially its MAC address(length: 6 bytes).
+    Serial.printf("ESP32 Chip ID: %04X",(uint16_t)(chipid>>32));//print High 2 bytes
+    Serial.printf("%08X\n",(uint32_t)chipid);//print Low 4bytes.
+
+    uint8_t baseMac[6];
+	// Get MAC address for WiFi station
+	esp_read_mac(baseMac, ESP_MAC_WIFI_STA);
+	char baseMacChr[18] = {0};
+	Serial.printf("MAC: %02X:%02X:%02X:%02X:%02X:%02X\n", baseMac[0], baseMac[1], baseMac[2], baseMac[3], baseMac[4], baseMac[5]);
+
+    uint8_t chiprevision = ESP.getChipRevision();
+    Serial.printf("Chip Revision: %i\n", (chiprevision));
+    
+    uint32_t ramsize = ESP.getHeapSize();
+    Serial.printf("RAM Size: %iKB\n", (ramsize/1024));
+
+    uint32_t flashsize = ESP.getFlashChipSize();
+    Serial.printf("Flash Size: %iMB\n", (flashsize/1024/1024));
+    
+    if(SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)){
+        uint32_t flashsize = static_cast<uint32_t>(SPIFFS.totalBytes());
+        Serial.printf("SPIFFS Size: %iKB\n\n", (flashsize/1024));
+    }
+
 
     // Set LED state
     statusLED.initialize();
@@ -54,40 +82,43 @@ void output_disable(){
 }
 
 void loop() {
-	
-	Serial.print("Loop : ");
-	Serial.println(loops);
-    
-    switch(loops % 4) {
-        case 1 : statusLED.setLed(RED); break;
-        case 2 : statusLED.setLed(GREEN); break;
-        case 3 : statusLED.setLed(BLUE); break;
-        default : statusLED.setLed(OFF);
-    }
-    
-	
-	int i;
-    for (i=0; i<4; i++){
-        motors[i].setPWM(255);
-        delay(LEDTESTDELAY);
-        yield();
-        motors[i].setPWM(0);
-        delay(LEDTESTDELAY);
-        yield();
-        delay(LEDTESTDELAY);
-        yield();
-    }
-    
-    if (loops == 2){
-        Serial.println("Enabling output");
-        output_enable();
-    }
-    
-    if (loops == 6){
-        Serial.println("Powering off");
-        digitalWrite(Configuration::PIN_POWEROFF, HIGH);
-    }
 
-	loops++;
+    if (loops <= 7){
+
+        Serial.print("Loop : ");
+        Serial.println(loops);
+        
+        switch(loops % 4) {
+            case 1 : statusLED.setLed(RED); break;
+            case 2 : statusLED.setLed(GREEN); break;
+            case 3 : statusLED.setLed(BLUE); break;
+            default : statusLED.setLed(OFF);
+        }
+        
+        
+        int i;
+        for (i=0; i<4; i++){
+            motors[i].setPWM(255);
+            delay(LEDTESTDELAY);
+            yield();
+            motors[i].setPWM(0);
+            delay(LEDTESTDELAY);
+            yield();
+            delay(LEDTESTDELAY);
+            yield();
+        }
+        
+        if (loops == 2){
+            Serial.println("Enabling output");
+            output_enable();
+        }
+        
+        if (loops == 6){
+            Serial.println("Powering off");
+            digitalWrite(Configuration::PIN_POWEROFF, HIGH);
+        }
+
+        loops++;
+    }
 }
 

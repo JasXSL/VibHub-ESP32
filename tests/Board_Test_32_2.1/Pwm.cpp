@@ -24,7 +24,7 @@ void Pwm::initialize( uint8_t pin ){
     ledcSetup(_channel, Configuration::PWM_FREQ, Configuration::PWM_RESOLUTION);
     ledcAttachPin(pin, _channel);
     ++devices_bound;
-    Serial.printf("BOUND PIN %i to channel %i (Total devices: %i, %i)\n", pin, _channel, Pwm::_devices.size(), devices_bound);
+    // Serial.printf("BOUND PIN %i to channel %i (Total devices: %i, %i)\n", pin, _channel, Pwm::_devices.size(), devices_bound);
 
     Pwm::_devices.push_back(this);
     setPWM(0);
