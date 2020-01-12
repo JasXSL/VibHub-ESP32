@@ -31,7 +31,7 @@ void Pwm::initialize( uint8_t pin ){
 
 }
 
-void Pwm::setPWM( uint8_t duty ){
+void Pwm::setPWM( uint16_t duty ){
 
     //Serial.printf("PWM of channel %i = %i\n", _channel, duty);
     ledcWrite(_channel, duty);

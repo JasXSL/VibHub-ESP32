@@ -22,7 +22,8 @@ class StatusLED{
         
         bool ledTickerHigh;
         void setState( int state = STATE_BOOT );
-        void setLed( int color );
+        void setLed( uint8_t color  );
+        void setLedColor( uint8_t led, uint16_t r, uint16_t g, uint16_t b );
 
         void test();
         static void testTick( int color );

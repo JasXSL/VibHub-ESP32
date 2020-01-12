@@ -52,11 +52,11 @@ void StatusLED::initialize(){
 
 }
 
-void StatusLED::setLed( int color ){
+void StatusLED::setLed( uint8_t color ){
 
-    uint32_t r = 255 - (color&RED ? Configuration::SLED_BRIGHTNESS : 0);
-    uint32_t g = 255 - (color&GREEN ? Configuration::SLED_BRIGHTNESS : 0);
-    uint32_t b = 255 - (color&BLUE ? Configuration::SLED_BRIGHTNESS : 0);
+    uint16_t r = 256 - (color&RED ? Configuration::SLED_BRIGHTNESS : 0);
+    uint16_t g = 256 - (color&GREEN ? Configuration::SLED_BRIGHTNESS : 0);
+    uint16_t b = 256 - (color&BLUE ? Configuration::SLED_BRIGHTNESS : 0);
 
     // Serial.printf("C %i : R %i G %i B %i\n", color, r, g, b);
 
@@ -70,6 +70,21 @@ void StatusLED::setLed( int color ){
 
 }
 
+void StatusLED::setLedColor( uint8_t led, uint16_t r, uint16_t g, uint16_t b ){
+    if (led&1)
+    {
+        p_red.setPWM(r);
+        p_green.setPWM(g);
+        p_blue.setPWM(b);
+    }
+    
+    if (led&2)
+    {
+        p2_red.setPWM(r);
+        p2_green.setPWM(g);
+        p2_blue.setPWM(b);
+    }
+}
 
 
 // Flash led on and off
