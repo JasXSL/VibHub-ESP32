@@ -3,6 +3,8 @@ workspace.code-workspace
 .vscode/*
 *.b#[0-9]
 *.s#[0-9]
+*.l#[0-9]
+*.bak
 *.epf
 testing/*
 .vscode/arduino.json
