@@ -3168,7 +3168,7 @@ Please make sure your boards conform to these design rules.
 </element>
 <element name="R32" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" package="0805" package3d_urn="urn:adsk.eagle:package:2531030/3" value="&gt;1M" x="34.9" y="67.1" smashed="yes" rot="R90">
 <attribute name="NAME" x="34.011" y="67.1" size="0.8128" layer="25" font="vector" ratio="15" rot="R90" align="bottom-center"/>
-<attribute name="VALUE" x="34.9" y="65.74193125" size="0.8128" layer="27" font="vector" ratio="15" rot="R90" align="center-left"/>
+<attribute name="VALUE" x="35.95" y="67.09193125" size="0.8128" layer="27" font="vector" ratio="15" rot="R90" align="top-center"/>
 </element>
 <element name="U5" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" package="SO016" package3d_urn="urn:adsk.eagle:package:13515173/1" value="CH340C" x="15" y="56" smashed="yes" rot="R270">
 <attribute name="NAME" x="15" y="49.538" size="0.8128" layer="25" ratio="15" align="bottom-center"/>
@@ -3355,7 +3355,7 @@ Please make sure your boards conform to these design rules.
 <attribute name="PROD_ID" value="TRANS-00830" x="17" y="47" size="2.1844" layer="27" ratio="15" rot="R270" display="off"/>
 <attribute name="VALUE" x="17" y="45.349" size="0.6096" layer="27" font="vector" ratio="20" align="top-center"/>
 </element>
-<element name="R33" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" package="0805" package3d_urn="urn:adsk.eagle:package:2531030/3" value="100K" x="13" y="47" smashed="yes" rot="R90">
+<element name="R33" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" package="0805" package3d_urn="urn:adsk.eagle:package:2531030/3" value="&gt;1M" x="13" y="47" smashed="yes" rot="R90">
 <attribute name="NAME" x="12.111" y="47" size="0.8128" layer="25" font="vector" ratio="15" rot="R90" align="bottom-center"/>
 <attribute name="VALUE" x="13.889" y="47" size="0.8128" layer="27" font="vector" ratio="10" rot="R90" align="top-center"/>
 </element>

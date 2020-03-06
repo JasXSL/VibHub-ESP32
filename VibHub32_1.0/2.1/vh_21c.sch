@@ -20639,7 +20639,7 @@ Source: &lt;a href="http://optoelectronics.liteon.com/upload/download/DS22-2000-
 <part name="D1" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="DIODE" device="-SOD-123" value="1N4148W-7-F"/>
 <part name="Q3" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="MOSFET-NCH" device="-BSS138" package3d_urn="urn:adsk.eagle:package:2531077/3" value="2N7002"/>
 <part name="SUPPLY22" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="V_USB" device=""/>
-<part name="R33" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:2531030/3" value="100K"/>
+<part name="R33" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:2531030/3" value="&gt;1M"/>
 <part name="R35" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:2531030/3" value="150"/>
 <part name="GND31" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="GND" device=""/>
 <part name="R14" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:2531030/3" value="1K"/>
