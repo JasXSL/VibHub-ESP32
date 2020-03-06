@@ -5146,15 +5146,14 @@ Please make sure your boards conform to these design rules.
 <wire x1="21" y1="60.1" x2="21" y2="59.55" width="0.254" layer="1"/>
 <wire x1="21.5" y1="59.05" x2="21" y2="59.55" width="0.254" layer="1"/>
 <via x="22.95" y="58.65" extent="1-16" drill="0.3"/>
-<wire x1="23.6" y1="49.7" x2="22.2" y2="48.3" width="0.254" layer="16"/>
-<wire x1="22.2" y1="48.3" x2="10.5" y2="48.3" width="0.254" layer="16"/>
-<via x="10.5" y="48.3" extent="1-16" drill="0.3"/>
-<wire x1="10.5" y1="48.3" x2="15.65" y2="48.3" width="0.254" layer="1"/>
-<wire x1="15.65" y1="48.3" x2="16" y2="47.95" width="0.254" layer="1"/>
+<wire x1="23.6" y1="49.45" x2="22.05" y2="47.9" width="0.254" layer="16"/>
+<wire x1="22.05" y1="47.9" x2="8.95" y2="47.9" width="0.254" layer="16"/>
+<via x="8.95" y="47.9" extent="1-16" drill="0.3"/>
+<wire x1="16" y1="47.95" x2="15.95" y2="47.9" width="0.254" layer="1"/>
+<wire x1="15.95" y1="47.9" x2="13" y2="47.9" width="0.254" layer="1"/>
 <wire x1="22.95" y1="58.65" x2="23.6" y2="58" width="0.254" layer="16"/>
-<wire x1="23.6" y1="58" x2="23.6" y2="49.7" width="0.254" layer="16"/>
-<wire x1="13" y1="47.9" x2="10.9" y2="47.9" width="0.254" layer="1"/>
-<wire x1="10.9" y1="47.9" x2="10.5" y2="48.3" width="0.254" layer="1"/>
+<wire x1="23.6" y1="58" x2="23.6" y2="49.45" width="0.254" layer="16"/>
+<wire x1="13" y1="47.9" x2="8.95" y2="47.9" width="0.254" layer="1"/>
 </signal>
 <signal name="USB_TXD">
 <contactref element="R14" pad="2"/>
