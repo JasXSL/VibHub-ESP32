@@ -11319,7 +11319,7 @@ Silk outline shows header location.
 <rectangle x1="0.7112" y1="-1.2954" x2="1.1684" y2="-0.7112" layer="51"/>
 <rectangle x1="-1.1684" y1="-1.2954" x2="-0.7112" y2="-0.7112" layer="51"/>
 </package>
-<package name="SOT91P240X110-3" urn="urn:adsk.eagle:footprint:5760929/2" library_version="22" library_locally_modified="yes">
+<package name="SOT91P240X110-3" urn="urn:adsk.eagle:footprint:5760929/2" locally_modified="yes" library_version="28" library_locally_modified="yes">
 <description>3-SOT23, 0.92 mm pitch, 2.40 mm span, 2.90 X 1.30 X 1.10 mm body
 &lt;p&gt;3-pin SOT23 package with 0.92 mm pitch, 2.40 mm span with body size 2.90 X 1.30 X 1.10 mm&lt;/p&gt;</description>
 <wire x1="0.7" y1="-1.5" x2="-0.7" y2="-1.5" width="0.12" layer="51"/>
@@ -11331,6 +11331,13 @@ Silk outline shows header location.
 <smd name="3" x="1" y="0" dx="0.9" dy="0.8" layer="1"/>
 <text x="0" y="1.8139" size="0.8128" layer="25" ratio="20" align="bottom-center">&gt;NAME</text>
 <text x="0" y="-1.7869" size="0.8128" layer="27" ratio="20" align="top-center">&gt;VALUE</text>
+<wire x1="-0.6" y1="1.6" x2="0.8" y2="1.6" width="0.1524" layer="21"/>
+<wire x1="0.8" y1="1.6" x2="0.8" y2="0.6" width="0.1524" layer="21"/>
+<wire x1="-0.6" y1="-1.6" x2="0.8" y2="-1.6" width="0.1524" layer="21"/>
+<wire x1="0.8" y1="-1.6" x2="0.8" y2="-0.6" width="0.1524" layer="21"/>
+<wire x1="-0.6" y1="0.4" x2="-0.6" y2="-0.4" width="0.1524" layer="21"/>
+<wire x1="-0.6" y1="1.6" x2="-0.6" y2="1.5" width="0.1524" layer="21"/>
+<wire x1="-0.6" y1="-1.6" x2="-0.6" y2="-1.5" width="0.1524" layer="21"/>
 </package>
 <package name="SO016" urn="urn:adsk.eagle:footprint:13515171/1" library_version="24">
 <wire x1="4.8768" y1="1.9463" x2="-4.8768" y2="1.9463" width="0.2032" layer="21"/>
@@ -12091,7 +12098,7 @@ FCI 10118194-0001LF</description>
 <rectangle x1="0.15" y1="-1.05" x2="1.05" y2="-0.15" layer="31"/>
 <rectangle x1="-1.05" y1="-1.05" x2="-0.15" y2="-0.15" layer="31"/>
 </package>
-<package name="SOD-123" urn="urn:adsk.eagle:footprint:6240107/1" locally_modified="yes" library_version="27" library_locally_modified="yes">
+<package name="SOD-123" urn="urn:adsk.eagle:footprint:17798684/1" locally_modified="yes" library_version="28" library_locally_modified="yes">
 <wire x1="-1" y1="0.7" x2="1" y2="0.7" width="0.1524" layer="21"/>
 <wire x1="1" y1="0.7" x2="1" y2="-0.7" width="0.1524" layer="21"/>
 <wire x1="1" y1="-0.7" x2="-1" y2="-0.7" width="0.1524" layer="21"/>
@@ -12099,16 +12106,18 @@ FCI 10118194-0001LF</description>
 <wire x1="-0.5" y1="0" x2="0.1" y2="0.4" width="0.1524" layer="21"/>
 <wire x1="0.1" y1="0.4" x2="0.1" y2="-0.4" width="0.1524" layer="21"/>
 <wire x1="0.1" y1="-0.4" x2="-0.5" y2="0" width="0.1524" layer="21"/>
-<wire x1="-1.778" y1="0.762" x2="1.778" y2="0.762" width="0.127" layer="21"/>
-<wire x1="1.778" y1="0.762" x2="1.778" y2="-0.762" width="0.127" layer="21"/>
-<wire x1="1.778" y1="-0.762" x2="-1.778" y2="-0.762" width="0.127" layer="21"/>
-<wire x1="-1.778" y1="-0.762" x2="-1.778" y2="0.762" width="0.127" layer="21"/>
+<wire x1="-2.778" y1="-0.762" x2="-2.778" y2="0.762" width="0.127" layer="21"/>
 <smd name="C" x="-1.85" y="0" dx="1.2" dy="0.7" layer="1"/>
 <smd name="A" x="1.85" y="0" dx="1.2" dy="0.7" layer="1"/>
 <text x="-1.1" y="1" size="0.4064" layer="25">&gt;NAME</text>
 <text x="-1.1" y="-1.284" size="0.4064" layer="27">&gt;VALUE</text>
 <rectangle x1="-0.7" y1="-0.7" x2="-0.5" y2="0.7" layer="21"/>
-<wire x1="-2.778" y1="-0.762" x2="-2.778" y2="0.762" width="0.127" layer="21"/>
+<wire x1="-1.8" y1="0.5" x2="-1.8" y2="0.7" width="0.1524" layer="21"/>
+<wire x1="-1.8" y1="0.7" x2="1.8" y2="0.7" width="0.1524" layer="21"/>
+<wire x1="1.8" y1="0.7" x2="1.8" y2="0.5" width="0.1524" layer="21"/>
+<wire x1="1.8" y1="-0.5" x2="1.8" y2="-0.7" width="0.1524" layer="21"/>
+<wire x1="1.8" y1="-0.7" x2="-1.8" y2="-0.7" width="0.1524" layer="21"/>
+<wire x1="-1.8" y1="-0.7" x2="-1.8" y2="-0.5" width="0.1524" layer="21"/>
 </package>
 <package name="SOD106" urn="urn:adsk.eagle:footprint:2530895/1" library_version="27" library_locally_modified="yes">
 <wire x1="0.7874" y1="-1.8208" x2="0.7874" y2="1.8208" width="0.127" layer="21"/>
@@ -13215,7 +13224,7 @@ Silk outline shows header location.
 <packageinstance name="SOT23"/>
 </packageinstances>
 </package3d>
-<package3d name="SOT91P240X110-3" urn="urn:adsk.eagle:package:5760908/2" type="model" library_version="22" library_locally_modified="yes">
+<package3d name="SOT91P240X110-3" urn="urn:adsk.eagle:package:5760908/2" type="model" library_version="28" library_locally_modified="yes">
 <description>3-SOT23, 0.92 mm pitch, 2.40 mm span, 2.90 X 1.30 X 1.10 mm body
 &lt;p&gt;3-pin SOT23 package with 0.92 mm pitch, 2.40 mm span with body size 2.90 X 1.30 X 1.10 mm&lt;/p&gt;</description>
 <packageinstances>
@@ -13417,6 +13426,11 @@ FCI 10118194-0001LF</description>
 <package3d name="SOD323" urn="urn:adsk.eagle:package:2531069/1" type="box" library_version="27" library_locally_modified="yes">
 <packageinstances>
 <packageinstance name="SOD323"/>
+</packageinstances>
+</package3d>
+<package3d name="SOD-123" urn="urn:adsk.eagle:package:17798685/1" type="box" library_version="28" library_locally_modified="yes">
+<packageinstances>
+<packageinstance name="SOD-123"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -18149,7 +18163,7 @@ Switches electronic signals</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="MOSFET_PCH" urn="urn:adsk.eagle:component:2531193/4" prefix="Q" library_version="22" library_locally_modified="yes">
+<deviceset name="MOSFET_PCH" urn="urn:adsk.eagle:component:2531193/4" prefix="Q" library_version="28" library_locally_modified="yes">
 <description>&lt;h3&gt;P-channel MOSFETs&lt;/h3&gt;
 &lt;p&gt;Voltage controlled devices that allow control of high current outputs.&lt;/p&gt;
 &lt;p&gt;&lt;b&gt;SparkFun Products:&lt;/b&gt;
@@ -19429,7 +19443,7 @@ Compatible with AI-Thinker ESP-32S Module.</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="BAS70-05" urn="urn:adsk.eagle:component:5760938/2" prefix="D" library_version="22" library_locally_modified="yes">
+<deviceset name="BAS70-05" urn="urn:adsk.eagle:component:5760938/2" prefix="D" library_version="28" library_locally_modified="yes">
 <description>&lt;b&gt;Silicon Schottky Diodes&lt;/b&gt;&lt;p&gt;
 General-purpose diode for high-speed switching</description>
 <gates>
@@ -19852,7 +19866,7 @@ SparkFun BigTime Watch Kit&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
 </device>
 </devices>
 </deviceset>
-<deviceset name="DIODE" urn="urn:adsk.eagle:component:2531184/1" locally_modified="yes" prefix="D" uservalue="yes" library_version="27" library_locally_modified="yes">
+<deviceset name="DIODE" urn="urn:adsk.eagle:component:2531184/2" prefix="D" uservalue="yes" library_version="28" library_locally_modified="yes">
 <description>Diodes</description>
 <gates>
 <gate name="D" symbol="DIODE" x="0" y="0"/>
@@ -19995,6 +20009,9 @@ SparkFun BigTime Watch Kit&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
 <connect gate="D" pin="A" pad="A"/>
 <connect gate="D" pin="C" pad="C"/>
 </connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:17798685/1"/>
+</package3dinstances>
 <technologies>
 <technology name=""/>
 </technologies>
@@ -20636,7 +20653,7 @@ Source: &lt;a href="http://optoelectronics.liteon.com/upload/download/DS22-2000-
 <part name="CELL3" library="AA_590_596" deviceset="AA_590_596" device=""/>
 <part name="CELL4" library="AA_590_596" deviceset="AA_590_596" device=""/>
 <part name="LOGO4" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="JASX_LOGO" device="_MID" package3d_urn="urn:adsk.eagle:package:4291618/1" value="JASX_LOGO_MID"/>
-<part name="D1" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="DIODE" device="-SOD-123" value="1N4148W-7-F"/>
+<part name="D1" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="DIODE" device="-SOD-123" package3d_urn="urn:adsk.eagle:package:17798685/1" value="1N4148W-7-F"/>
 <part name="Q3" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="MOSFET-NCH" device="-BSS138" package3d_urn="urn:adsk.eagle:package:2531077/3" value="2N7002"/>
 <part name="SUPPLY22" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="V_USB" device=""/>
 <part name="R33" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" deviceset="RESISTOR" device="0805" package3d_urn="urn:adsk.eagle:package:2531030/3" value="&gt;1M"/>

@@ -160,8 +160,8 @@
 <wire x1="40" y1="8" x2="40" y2="11" width="0.2032" layer="21"/>
 <text x="67" y="29" size="1.27" layer="21" font="vector" ratio="15" rot="R90" align="center">VihHub  2.1  Rev.C2</text>
 <text x="73" y="54" size="1.778" layer="21" ratio="15" rot="R270" align="bottom-center">JLCJLCJLCJLC</text>
-<text x="30.372" y="56" size="1.016" layer="21" font="vector" ratio="15" rot="R270" align="bottom-center">Kadah - Feb 2020</text>
-<text x="73.9" y="68.45" size="1.27" layer="22" font="vector" ratio="15" rot="MR270" align="center">VihHub
+<text x="30.372" y="56" size="1.016" layer="21" font="vector" ratio="15" rot="R270" align="bottom-center">Kadah - May 2020</text>
+<text x="74.9" y="67.45" size="1.27" layer="22" font="vector" ratio="15" rot="MR270" align="center">VihHub
 2.1
 Rev.C2</text>
 <text x="74.15" y="41.05" size="0.8128" layer="25" ratio="15" align="center-right">GND</text>
@@ -2171,7 +2171,7 @@ Holes are offset 0.005" from center, locking pins in place during soldering.
 <text x="-1.27" y="1.397" size="0.6096" layer="25" font="vector" ratio="20">&gt;NAME</text>
 <text x="-1.27" y="-2.032" size="0.6096" layer="27" font="vector" ratio="20">&gt;VALUE</text>
 </package>
-<package name="SOT91P240X110-3" urn="urn:adsk.eagle:footprint:5760929/2" library_version="22" library_locally_modified="yes">
+<package name="SOT91P240X110-3" urn="urn:adsk.eagle:footprint:5760929/2" locally_modified="yes" library_version="28" library_locally_modified="yes">
 <description>3-SOT23, 0.92 mm pitch, 2.40 mm span, 2.90 X 1.30 X 1.10 mm body
 &lt;p&gt;3-pin SOT23 package with 0.92 mm pitch, 2.40 mm span with body size 2.90 X 1.30 X 1.10 mm&lt;/p&gt;</description>
 <wire x1="0.7" y1="-1.5" x2="-0.7" y2="-1.5" width="0.12" layer="51"/>
@@ -2183,6 +2183,13 @@ Holes are offset 0.005" from center, locking pins in place during soldering.
 <smd name="3" x="1" y="0" dx="0.9" dy="0.8" layer="1"/>
 <text x="0" y="1.8139" size="0.8128" layer="25" ratio="20" align="bottom-center">&gt;NAME</text>
 <text x="0" y="-1.7869" size="0.8128" layer="27" ratio="20" align="top-center">&gt;VALUE</text>
+<wire x1="-0.6" y1="1.6" x2="0.8" y2="1.6" width="0.1524" layer="21"/>
+<wire x1="0.8" y1="1.6" x2="0.8" y2="0.6" width="0.1524" layer="21"/>
+<wire x1="-0.6" y1="-1.6" x2="0.8" y2="-1.6" width="0.1524" layer="21"/>
+<wire x1="0.8" y1="-1.6" x2="0.8" y2="-0.6" width="0.1524" layer="21"/>
+<wire x1="-0.6" y1="0.4" x2="-0.6" y2="-0.4" width="0.1524" layer="21"/>
+<wire x1="-0.6" y1="1.6" x2="-0.6" y2="1.5" width="0.1524" layer="21"/>
+<wire x1="-0.6" y1="-1.6" x2="-0.6" y2="-1.5" width="0.1524" layer="21"/>
 </package>
 <package name="SO016" urn="urn:adsk.eagle:footprint:13515171/1" library_version="24">
 <wire x1="4.8768" y1="1.9463" x2="-4.8768" y2="1.9463" width="0.2032" layer="21"/>
@@ -2407,7 +2414,7 @@ FCI 10118194-0001LF</description>
 <rectangle x1="0.15" y1="-1.05" x2="1.05" y2="-0.15" layer="31"/>
 <rectangle x1="-1.05" y1="-1.05" x2="-0.15" y2="-0.15" layer="31"/>
 </package>
-<package name="SOD-123" urn="urn:adsk.eagle:footprint:6240107/1" locally_modified="yes" library_version="27" library_locally_modified="yes">
+<package name="SOD-123" urn="urn:adsk.eagle:footprint:17798684/1" locally_modified="yes" library_version="28" library_locally_modified="yes">
 <wire x1="-1" y1="0.7" x2="1" y2="0.7" width="0.1524" layer="21"/>
 <wire x1="1" y1="0.7" x2="1" y2="-0.7" width="0.1524" layer="21"/>
 <wire x1="1" y1="-0.7" x2="-1" y2="-0.7" width="0.1524" layer="21"/>
@@ -2415,16 +2422,18 @@ FCI 10118194-0001LF</description>
 <wire x1="-0.5" y1="0" x2="0.1" y2="0.4" width="0.1524" layer="21"/>
 <wire x1="0.1" y1="0.4" x2="0.1" y2="-0.4" width="0.1524" layer="21"/>
 <wire x1="0.1" y1="-0.4" x2="-0.5" y2="0" width="0.1524" layer="21"/>
-<wire x1="-1.778" y1="0.762" x2="1.778" y2="0.762" width="0.127" layer="21"/>
-<wire x1="1.778" y1="0.762" x2="1.778" y2="-0.762" width="0.127" layer="21"/>
-<wire x1="1.778" y1="-0.762" x2="-1.778" y2="-0.762" width="0.127" layer="21"/>
-<wire x1="-1.778" y1="-0.762" x2="-1.778" y2="0.762" width="0.127" layer="21"/>
+<wire x1="-2.778" y1="-0.762" x2="-2.778" y2="0.762" width="0.127" layer="21"/>
 <smd name="C" x="-1.85" y="0" dx="1.2" dy="0.7" layer="1"/>
 <smd name="A" x="1.85" y="0" dx="1.2" dy="0.7" layer="1"/>
 <text x="-1.1" y="1" size="0.4064" layer="25">&gt;NAME</text>
 <text x="-1.1" y="-1.284" size="0.4064" layer="27">&gt;VALUE</text>
 <rectangle x1="-0.7" y1="-0.7" x2="-0.5" y2="0.7" layer="21"/>
-<wire x1="-2.778" y1="-0.762" x2="-2.778" y2="0.762" width="0.127" layer="21"/>
+<wire x1="-1.8" y1="0.5" x2="-1.8" y2="0.7" width="0.1524" layer="21"/>
+<wire x1="-1.8" y1="0.7" x2="1.8" y2="0.7" width="0.1524" layer="21"/>
+<wire x1="1.8" y1="0.7" x2="1.8" y2="0.5" width="0.1524" layer="21"/>
+<wire x1="1.8" y1="-0.5" x2="1.8" y2="-0.7" width="0.1524" layer="21"/>
+<wire x1="1.8" y1="-0.7" x2="-1.8" y2="-0.7" width="0.1524" layer="21"/>
+<wire x1="-1.8" y1="-0.7" x2="-1.8" y2="-0.5" width="0.1524" layer="21"/>
 </package>
 </packages>
 <packages3d>
@@ -2555,7 +2564,7 @@ Holes are offset 0.005" from center, locking pins in place during soldering.
 <packageinstance name="1X04"/>
 </packageinstances>
 </package3d>
-<package3d name="SOT91P240X110-3" urn="urn:adsk.eagle:package:5760908/2" type="model" library_version="22" library_locally_modified="yes">
+<package3d name="SOT91P240X110-3" urn="urn:adsk.eagle:package:5760908/2" type="model" library_version="28" library_locally_modified="yes">
 <description>3-SOT23, 0.92 mm pitch, 2.40 mm span, 2.90 X 1.30 X 1.10 mm body
 &lt;p&gt;3-pin SOT23 package with 0.92 mm pitch, 2.40 mm span with body size 2.90 X 1.30 X 1.10 mm&lt;/p&gt;</description>
 <packageinstances>
@@ -2592,6 +2601,11 @@ FCI 10118194-0001LF</description>
 <package3d name="DRV8833_COMBO" urn="urn:adsk.eagle:package:16152709/1" type="box" library_version="26">
 <packageinstances>
 <packageinstance name="DRV8833_COMBO"/>
+</packageinstances>
+</package3d>
+<package3d name="SOD-123" urn="urn:adsk.eagle:package:17798685/1" type="box" library_version="28" library_locally_modified="yes">
+<packageinstances>
+<packageinstance name="SOD-123"/>
 </packageinstances>
 </package3d>
 </packages3d>
@@ -3164,7 +3178,7 @@ Please make sure your boards conform to these design rules.
 <attribute name="VALUE" x="47" y="55.5936" size="0.8128" layer="27" font="vector" ratio="15" align="bottom-center"/>
 </element>
 <element name="D5" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" package="SOT91P240X110-3" package3d_urn="urn:adsk.eagle:package:5760908/2" value="BAS70-05SOT32" x="24.45" y="61" smashed="yes">
-<attribute name="NAME" x="24.45" y="62.687" size="0.8128" layer="25" font="vector" ratio="15" align="bottom-center"/>
+<attribute name="NAME" x="24.45" y="62.837" size="0.8128" layer="25" font="vector" ratio="15" align="bottom-center"/>
 </element>
 <element name="R32" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" package="0805" package3d_urn="urn:adsk.eagle:package:2531030/3" value="&gt;1M" x="34.9" y="67.1" smashed="yes" rot="R90">
 <attribute name="NAME" x="34.011" y="67.1" size="0.8128" layer="25" font="vector" ratio="15" rot="R90" align="bottom-center"/>
@@ -3346,7 +3360,7 @@ Please make sure your boards conform to these design rules.
 <attribute name="MANUFACTURE_NAME" value="Keystone Electronics" x="62" y="19.42" size="1.778" layer="28" rot="MR180" display="off"/>
 </element>
 <element name="LOGO4" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" package="JASX_LOGO_M" package3d_urn="urn:adsk.eagle:package:4291618/1" value="JASX_LOGO_MID" x="63.9" y="28.85" smashed="yes" rot="R90"/>
-<element name="D1" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" package="SOD-123" value="1N4148W-7-F" x="22.95" y="56.05" smashed="yes">
+<element name="D1" library="vibhud" library_urn="urn:adsk.eagle:library:2530795" package="SOD-123" package3d_urn="urn:adsk.eagle:package:17798685/1" value="1N4148W-7-F" x="22.95" y="56.05" smashed="yes">
 <attribute name="NAME" x="22.75425" y="55.0975" size="0.8128" layer="25" ratio="15" align="top-center"/>
 <attribute name="VALUE" x="22.75425" y="57.0025" size="0.8128" layer="27" ratio="15" align="bottom-center"/>
 </element>
