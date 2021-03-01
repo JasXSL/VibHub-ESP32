@@ -31,7 +31,7 @@ class Capability{
 
 namespace Configuration{
 
-    const char VH_VERSION[]         = "0.2.2";          // Software version
+    const char VH_VERSION[]         = "0.3.0";          // Software version
     const char VH_HWVERSION[]       = "ESP32_2.1";      // Hardware type & version
     const char WIFI_SSID[]          = "VibHub";         // Network SSID
     const char DEFAULT_HOST[]       = "vibhub.io";      // Default socket host
