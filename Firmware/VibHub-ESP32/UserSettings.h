@@ -22,9 +22,10 @@ class UserSettings{
         
         void loop();
         void resetSleepTimer();
+        void generateDeviceId( bool secure = false, bool save = true );
 
 	private:
-        void gen_random( char *s, const int len );
+        void gen_random( char *s, bool secure );
         long last_action;               // millis() of last time there was an update
         
 };

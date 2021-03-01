@@ -91,7 +91,8 @@ void UserSettings::load( bool reset ){
 		if( deviceid[0] == '\0' ){
 
 			Serial.println("No device ID found, randomizing one");
-			gen_random(deviceid, 12);
+			//gen_random(deviceid, 12);
+            generateDeviceId(false, false);
 
 		}
 
@@ -115,14 +116,23 @@ void UserSettings::load( bool reset ){
     
 }
 
+void UserSettings::generateDeviceId( bool secure, bool sav ){
+
+    gen_random(deviceid, secure);
+    if( sav )
+        save();
+
+}
+
 // Random device ID generator
-void UserSettings::gen_random( char *s, const int len ){
+void UserSettings::gen_random( char *s, bool secure ){
     
-	static const char alphanum[] =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	const int len = secure ? 20 : 12;
+	const String alphanum =
+        (secure ? "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" : "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 
     for( int i = 0; i < len; ++i )
-        s[i] = alphanum[esp_random() % (sizeof(alphanum) - 1)];
+        s[i] = alphanum[esp_random() % (alphanum.length() - 1)];
     
     s[len] = 0;
 

@@ -1,7 +1,7 @@
 /* Libraries
 
 External libraries needed:
-https://github.com/tzapu/WiFiManager/tree/development - DevBranch until ESP32 support is added by default
+Use https://github.com/JasXSL/WiFiManager - It has a custom ajax endpoint
 https://arduinojson.org/ - Installable via Arduino IDE.
 Ticker-esp32 ??? Don't know where you got this
 Kadah's fork of arduinoWebSockets: https://github.com/Kadah/arduinoWebSockets

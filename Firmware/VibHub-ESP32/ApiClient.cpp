@@ -34,6 +34,7 @@ void ApiClient::setup(){
     _socket.on("disconnect", std::bind(&ApiClient::event_disconnect, this, _1, _2));
     _socket.on("vib", std::bind(&ApiClient::event_vib, this, _1, _2));
     _socket.on("p", std::bind(&ApiClient::event_p, this, _1, _2));
+    _socket.on("ps", std::bind(&ApiClient::event_ps, this, _1, _2));
     _socket.on("ota", std::bind(&ApiClient::event_ota, this, _1, _2));
 
     pinMode(Configuration::PIN_NSLEEP, OUTPUT);
@@ -78,7 +79,28 @@ void ApiClient::event_connect( const char * payload, size_t length ){
 
     Serial.println("ApiClient::event_connect");
     _connected = true;
-    _socket.emit("id", ("\"" + (String)userSettings.deviceid + "\"").c_str());
+    //_socket.emit("id", ("\"" + (String)userSettings.deviceid + "\"").c_str());
+
+
+    StaticJsonDocument<512> doc;
+    doc["id"] = userSettings.deviceid;
+    doc["version"] = Configuration::VH_VERSION;
+    doc["hwversion"] = Configuration::VH_HWVERSION;
+    doc["numPorts"] = Configuration::NUM_MOTORS;
+
+    JsonObject capabilities = doc.createNestedObject("capabilities");
+    for( uint8_t i = 0; i < Configuration::NR_CAPABILITIES; ++i ){
+        if( Configuration::CAPABILITIES[i].modified )
+            capabilities[Configuration::CAPABILITIES[i].type] = "modified";
+        else
+            capabilities[Configuration::CAPABILITIES[i].type] = true;
+    }
+
+    String output;
+    serializeJson(doc, output);
+    Serial.printf("Initializing with: %s\n", output.c_str());
+    _socket.emit("id", output.c_str());
+
     statusLED.setState(StatusLED::STATE_RUNNING);
     output_enable();
 
@@ -190,6 +212,30 @@ void ApiClient::event_p( const char * payload, size_t length ){
     for( i = 0; i < 4; ++i ){
 
         setFlatPWM(i, vibArray[i]);
+
+    }
+
+}
+
+void ApiClient::event_ps( const char * payload, size_t length ){
+
+    Serial.printf("ApiClient::event_ps - %s length %i\n", payload, length);
+
+    // length seems to be off by 12 for some reason?
+    if( length > 12 )
+        length -= 12;
+
+    // Blocks of 4
+    for( size_t i = 0; i < length; i += 4 ){
+
+        char temp[5] = {payload[i], payload[i+1], payload[i+2], payload[i+3]};
+        uint32_t sub = strtoul(temp, 0, 16);
+        uint8_t chan = (sub>>8);
+        uint8_t intens = sub;       // Should work since it shaves off anything left of the first 8 bits
+        if( chan > Configuration::NUM_MOTORS )
+            continue;
+
+        setFlatPWM(chan, intens);
 
     }
 

@@ -24,11 +24,14 @@ void VhWifi::connect( bool force, bool reset ){
     // Custom CSS shared among the whole site
     String head = FPSTR(CSS_SHARED);
     head += "<script>window.onload = () => {";
+        head += getCustomJSPre();
         head += FPSTR(JS_SHARED);
         head += getCustomJSPost();
     head += "};</script>";
     wifiManager.setCustomHeadElement(head.c_str());
     
+    wifiManager.setAjaxCallback(std::bind(&VhWifi::onAjax, this, _1));
+
     // The extra parameters to be configured
     //WiFiManagerParameter devId("deviceid", "Device ID", userSettings.deviceid, 64);
     WiFiManagerParameter serverHost("server", "Server Host", userSettings.server, 64);
@@ -122,9 +125,28 @@ void VhWifi::handleFatalError(){
 
     statusLED.setState( StatusLED::STATE_WIFI_ERR );
     delay(5000);
-    esp_deep_sleep_start();
+    ESP.restart();
 
 }
+
+
+String VhWifi::onAjax( WiFiManager* wm ){
+
+    Serial.println( wm->server->method() == HTTP_GET  ? FPSTR(S_GET) : FPSTR(S_POST) );
+    String page = "";
+
+    String task = wm->server->arg(F("t")).c_str();
+    if( task == "id" || task == "ids" ){
+
+        userSettings.generateDeviceId(task == "ids", true);
+        page = userSettings.deviceid;
+
+    }
+
+    return page;
+
+}
+
 
 void VhWifi::clearSettings(){
     Serial.println("VhWifi::clearSettings(");
@@ -172,6 +194,14 @@ void VhWifi::configModeCallback( WiFiManager *myWiFiManager ){
 
 }
 
+String VhWifi::getCustomJSPre(){
+    String out;
+    out += "window.DEVID='";
+        out+= userSettings.deviceid;
+    out += "';";
+    return out;
+}
+
 
 String VhWifi::getCustomJSPost(){
 
@@ -182,7 +212,7 @@ String VhWifi::getCustomJSPost(){
         out+= Configuration::VH_VERSION;
         out+= "';";
     out+= "});";
-
+    /*
     // Update with the DEVICE ID
     out+= "document.querySelectorAll('.VH_DEV_ID').forEach(el => {";
         out+="el.innerText='";
@@ -190,7 +220,8 @@ String VhWifi::getCustomJSPost(){
         out+= "';";
     out+= "});";
     return out;
-		
+    */
+
 }
 
 

@@ -50,7 +50,7 @@ const char CSS_SHARED[] PROGMEM = "<style>"
 		"color:#666;"
 		"font-size:1em;"
 	"}"
-	"p.devID{"
+	"div.devID{"
 		"font-size:2em;"
 		"background:#FFD;"
 		"padding:0.5em;"
@@ -162,14 +162,15 @@ const char CSS_SHARED[] PROGMEM = "<style>"
 "</style>";
 
 const char JS_SHARED[] PROGMEM = "\n"
-    "let path = document.location.pathname;\n"
-	"let QSA=document.querySelectorAll.bind(document);"
-	"let QS=document.querySelector.bind(document);"
-	"let GID=document.getElementById.bind(document);"
+    "const D=document;"
+    "let path=D.location.pathname;\n"
+	"let QSA=D.querySelectorAll.bind(D);"
+	"let QS=D.querySelector.bind(D);"
+	"let GID=D.getElementById.bind(D);"
 	
 	// Clear default style
 	"QS('body > div').style = '';\n"
-	"document.title = 'VibHub Settings';\n"
+	"D.title = 'VibHub Settings';\n"
 	"QSA(\"div.msg, br, form[action='/info']\").forEach(e => e.remove());"
 	// HOME
 	"if(path==='/'){\n"
@@ -180,34 +181,71 @@ const char JS_SHARED[] PROGMEM = "\n"
 		"div.innerHTML='"
 			"<h1>VibHub</h1>"
 			"<p class=\"subtitle\">Version <span class=\"VH_VERSION\"></span></p>"
-			"<p class=\"devID VH_DEV_ID\"></p>"
-			"<div id=\"cNote\">Device ID copied</div>"
+			"<div class=\"devID\"></div>"
+			"<div id=\"cNote\"></div>"
 		"'+div.innerHTML;"
 
+		// Create dev ID refresh buttons
+		"let F=QS('form');"
+		"let cdi=D.createElement('form');"
+		"cdi.innerHTML='<button>New Normal ID</button>';"
+		"F.parentNode.insertBefore(cdi,F.nextSibling);"
+		"let cdb=D.createElement('form');"
+		"cdb.innerHTML='<button>New Secure ID</button>';"
+		"F.parentNode.insertBefore(cdb,cdi.nextSibling);"
+
+		// update DevID
+		"let dID=QS('div.devID');"
+		"let uDID=()=>{"
+			"dID.innerHTML='<svg viewBox=\"0 0 '+window.DEVID.length*20+' 30\"><text x=\"50%\" y=\"50%\" text-anchor=\"middle\" dominant-baseline=\"middle\">'+"
+				"window.DEVID+"
+			"'</text></svg>';"
+		"};"
+		"uDID();"
+
 		// Bind events
-		"let dID=QS('p.devID');"
 		"let cN=GID('cNote');"
-		"let qs=document.queryCommandSupported;"
-		"qs=qs&&qs.bind(document)('copy');"
+		"let qs=D.queryCommandSupported;"
+		"qs=qs&&qs.bind(D)('copy');"
+		"let scN=txt=>{"	// Show note
+			"cN.className='';"
+			"cN.innerText=txt;"
+			"setTimeout(()=>{cN.className='show';}, 10);"
+		"};"
 		"dID.onclick=()=>{"
+			"scN('Device ID copied');"
 			"cN.className='';"
 			"setTimeout(()=>{cN.className='show';}, 10);"
 			"if(qs){"
-				"let ta = document.createElement('textarea');"
-				"ta.textContent = QS('p.devID').innerText;"
+				"let ta = D.createElement('textarea');"
+				"ta.textContent = window.DEVID;"
 				"ta.style.position = 'fixed';"
-				"document.body.appendChild(ta);"
+				"D.body.appendChild(ta);"
 				"ta.select();"
 				"try{"
-					"return document.execCommand('copy');"
+					"return D.execCommand('copy');"
 				"}catch(ex){"
 					"alert('Unable to copy. Browser not supported.');"
 					"return false;"
 				"}finally{"
-					"document.body.removeChild(ta);"
+					"D.body.removeChild(ta);"
 				"}"
 			"}"
 		"};"
+
+		// Generate new device id, sec = secure
+		"let NDI=sec=>{"
+			"fetch('/ajax?t=id'+(sec?'s':'')).then(res=>res.text()).then(id=>{window.DEVID=id;uDID();scN('ID Updated');});"
+		"};"
+		"cdi.onsubmit=()=>{"
+			"NDI();"
+			"return false;"
+		"};"
+		"cdb.onsubmit=()=>{"
+			"NDI(true);"
+			"return false;"
+		"};"
+
 	"}\n"
 
 	// Wifi page
@@ -275,6 +313,8 @@ class VhWifi{
 		void saveConfigCallback();
 		void configModeCallback( WiFiManager *myWiFiManager );
 		bool connected;
+
+		String onAjax( WiFiManager* wm );
 
 	private:
         WiFiManager* _wifiManager;
