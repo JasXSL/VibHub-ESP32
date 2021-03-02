@@ -5,7 +5,6 @@
 #define _VH_CONFIGURATION
 #include <FS.h>
 #include <Arduino.h>
-#include "Configuration.h"
 // Bug with arduino unless I undefine these
 #undef min
 #undef max
