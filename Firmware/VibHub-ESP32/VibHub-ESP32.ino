@@ -1,11 +1,9 @@
-/* Libraries
-
-External libraries needed:
-Use https://github.com/JasXSL/WiFiManager - It has a custom ajax endpoint
-https://arduinojson.org/ - Installable via Arduino IDE.
-Ticker-esp32 ??? Don't know where you got this
-Kadah's fork of arduinoWebSockets: https://github.com/Kadah/arduinoWebSockets
-and socket.io-client: https://github.com/Kadah/socket.io-client
+/*
+External libraries needed if not using platformio:
+https://github.com/JasXSL/WiFiManager - It has a custom ajax endpoint
+https://github.com/Kadah/arduinoWebSockets - Kadah's fork of arduinoWebSockets
+https://github.com/Kadah/socket.io-client - Ditto for socket.io-client
+https://arduinojson.org/ - ArduinoJson version 6.13.0, via Arduino IDE's Manage Libraries
 */ 
 
 #include <Arduino.h>

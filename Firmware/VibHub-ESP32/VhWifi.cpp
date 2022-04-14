@@ -22,13 +22,7 @@ void VhWifi::connect( bool force, bool reset ){
         clearSettings();   
     
     // Custom CSS shared among the whole site
-    String head = FPSTR(CSS_SHARED);
-    head += "<script>window.onload = () => {";
-        head += getCustomJSPre();
-        head += FPSTR(JS_SHARED);
-        head += getCustomJSPost();
-    head += "};</script>";
-    wifiManager.setCustomHeadElement(head.c_str());
+    wifiManager.setCustomHeadElement(getCustomHead());
     
     wifiManager.setAjaxCallback(std::bind(&VhWifi::onAjax, this, _1));
 
@@ -194,34 +188,12 @@ void VhWifi::configModeCallback( WiFiManager *myWiFiManager ){
 
 }
 
-String VhWifi::getCustomJSPre(){
-    String out;
-    out += "window.DEVID='";
-        out+= userSettings.deviceid;
-    out += "';";
-    return out;
-}
 
-
-String VhWifi::getCustomJSPost(){
-
-    String out = "";
-    // Anything with class VH_VERSION gets innerText set to the version
-    out+= "document.querySelectorAll('.VH_VERSION').forEach(el => {";
-        out+="el.innerText='";
-        out+= Configuration::VH_VERSION;
-        out+= "';";
-    out+= "});";
-    /*
-    // Update with the DEVICE ID
-    out+= "document.querySelectorAll('.VH_DEV_ID').forEach(el => {";
-        out+="el.innerText='";
-        out+= userSettings.deviceid;
-        out+= "';";
-    out+= "});";
-    return out;
-    */
-
+char * VhWifi::getCustomHead(){
+    int size = snprintf_P(NULL, 0, CUSTOM_HEAD_ELEMENT, userSettings.deviceid, Configuration::VH_VERSION);
+    char * head = (char*)malloc(size + 1);
+    sprintf_P(head, CUSTOM_HEAD_ELEMENT, userSettings.deviceid, Configuration::VH_VERSION);
+    return head;
 }
 
 

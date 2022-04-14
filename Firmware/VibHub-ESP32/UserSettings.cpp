@@ -11,8 +11,8 @@ UserSettings::UserSettings(void) :
     //server(Configuration::DEFAULT_HOST),
     port(Configuration::DEFAULT_PORT),
     sleep_after_min(60),
-    last_action(0),
-    initialized(false)
+    initialized(false),
+    last_action(0)
 {
     strcpy(server, Configuration::DEFAULT_HOST);
 }

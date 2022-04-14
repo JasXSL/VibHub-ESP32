@@ -1,7 +1,7 @@
 #include "StatusLED.h"
 #include "Configuration.h"
 #include <Arduino.h>
-#include <ESP32Ticker.h>
+#include <Ticker.h>
 #include "VhWifi.h"
 
 Ticker ledTicker;               // Ticker for LED
@@ -27,8 +27,8 @@ const uint8_t StatusLED::STATE_RUNNING = 5;
 
 
 StatusLED::StatusLED() :
-    programState(-1),
-    ledTickerHigh(false)
+    ledTickerHigh(false),
+    programState(-1)
     //p_red(),
     //p_green(),
     //p_blue()
