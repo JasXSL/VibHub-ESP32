@@ -1,6 +1,4 @@
-
-workspace.code-workspace
-.vscode/*
+.vscode
 *.b#[0-9]
 *.s#[0-9]
 *.l#[0-9]
@@ -9,3 +7,4 @@ workspace.code-workspace
 testing/*
 .vscode/arduino.json
 .vscode/c_cpp_properties.json
+.pio
