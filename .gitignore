@@ -1,4 +1,5 @@
-.vscode
+.vscode/*
+!.vscode/extensions.json
 .history
 *.vsix
 *.b#[0-9]
